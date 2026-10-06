@@ -1,68 +1,69 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clube de Ofertas do Seu Bairro</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vitrine Digital - Ofertas Exclusivas</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f5f7fa; color: #333; padding: 20px; }
+    header { text-align: center; margin-bottom: 30px; padding: 20px 0; background: #ffffff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+    h1 { color: #2c3e50; font-size: 1.8rem; margin-bottom: 8px; }
+    p.sub { color: #666; font-size: 0.95rem; }
+    
+    .ofertas-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; }
+    .card { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.2s; border: 1px solid #e1e8ed; }
+    .card:hover { transform: translateY(-4px); }
+    .card-body { padding: 20px; text-align: center; }
+    .card-title { font-size: 1.2rem; margin-bottom: 10px; color: #1a202c; }
+    .card-desc { color: #4a5568; font-size: 0.9rem; margin-bottom: 15px; }
+    .btn { display: inline-block; width: 100%; padding: 10px; background-color: #3182ce; color: white; font-weight: bold; text-decoration: none; border-radius: 6px; text-align: center; }
+    .btn:hover { background-color: #2b6cb0; }
+  </style>
+
+  <!-- Script oficial do OneSignal -->
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script>
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function(OneSignal) {
+      await OneSignal.init({
+        appId: "96898809-38c2-4067-abf2-30fcaaeb653e", // Insira seu App ID do OneSignal (Settings > Keys & IDs)
+        serviceWorkerParam: { scope: "/vitrinedigital/" },
+        serviceWorkerPath: "/vitrinedigital/OneSignalSDKWorker.js",
+        autoRegister: false,
+      });
+
+      // Aguarda 5 segundos (5000ms) após carregar a página para pedir permissão
+      setTimeout(() => {
+        OneSignal.Notifications.requestPermission();
+      }, 5000);
+    });
+  </script>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col justify-between">
+<body>
 
-    <header class="bg-blue-600 text-white py-6 px-4 text-center shadow-md">
-        <div class="max-w-md mx-auto">
-            <span class="bg-blue-500 text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider">Exclusivo para Moradores</span>
-            <h1 class="text-2xl font-bold mt-2">Clube Vizinho+</h1>
-            <p class="text-blue-100 text-sm mt-1">Ofertas selecionadas das melhores marcas da região direto no seu celular.</p>
-        </div>
-    </header>
+  <header>
+    <h1>🔥 Ofertas & Promoções Exclusivas</h1>
+    <p class="sub">Aproveite os melhores descontos atualizados diariamente!</p>
+  </header>
 
-    <main class="max-w-md mx-auto px-4 py-6 w-full flex-grow space-y-4">
-        
-        <div class="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">🔥 Destaques da Semana</div>
+  <main class="ofertas-container">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title">Oferta Especial #1</h2>
+        <p class="card-desc">Confira os detalhes desta oportunidade e garanta seu desconto antes que acabe.</p>
+        <a href="#" class="btn">Ver Oferta</a>
+      </div>
+    </div>
 
-        <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-4 flex items-center justify-between transition hover:shadow-md">
-            <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center text-amber-600 font-bold text-lg">🍔</div>
-                <div>
-                    <h2 class="font-bold text-slate-800 text-sm sm:text-base">Burger Artesanal</h2>
-                    <p class="text-xs text-slate-500">20% de desconto no combo delivery</p>
-                </div>
-            </div>
-            <a href="https://wa.me/seunumero?text=Vim%20pelo%20Clube%20Vizinho" target="_blank" class="bg-blue-600 text-white text-xs font-semibold px-3 py-2 rounded-lg hover:bg-blue-700 transition shrink-0">Resgatar</a>
-        </div>
-
-        <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-4 flex items-center justify-between transition hover:shadow-md">
-            <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-600 font-bold text-lg">💊</div>
-                <div>
-                    <h2 class="font-bold text-slate-800 text-sm sm:text-base">Drogaria Popular</h2>
-                    <p class="text-xs text-slate-500">Frete grátis + 15% em genéricos</p>
-                </div>
-            </div>
-            <a href="https://wa.me/seunumero?text=Vim%20pelo%20Clube%20Vizinho" target="_blank" class="bg-blue-600 text-white text-xs font-semibold px-3 py-2 rounded-lg hover:bg-blue-700 transition shrink-0">Resgatar</a>
-        </div>
-
-        <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-4 flex items-center justify-between transition hover:shadow-md">
-            <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 font-bold text-lg">🧹</div>
-                <div>
-                    <h2 class="font-bold text-slate-800 text-sm sm:text-base">Leva&Traz Lavanderia</h2>
-                    <p class="text-xs text-slate-500">R$ 30 de desconto na 1ª lavagem</p>
-                </div>
-            </div>
-            <a href="https://wa.me/seunumero?text=Vim%20pelo%20Clube%20Vizinho" target="_blank" class="bg-blue-600 text-white text-xs font-semibold px-3 py-2 rounded-lg hover:bg-blue-700 transition shrink-0">Resgatar</a>
-        </div>
-
-    </main>
-
-    <footer class="bg-white border-t border-slate-200 py-4 px-4 text-center text-xs text-slate-400 mt-8">
-        <p>Iniciativa apoiada pela administração do seu condomínio.</p>
-        <p class="mt-1">© 2026 Mirai Comunicação • Todos os direitos reservados.</p>
-    </footer>
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title">Oferta Especial #2</h2>
+        <p class="card-desc">Mais uma seleção incrível de produtos com preços reduzidos.</p>
+        <a href="#" class="btn">Ver Oferta</a>
+      </div>
+    </div>
+  </main>
 
 </body>
 </html>
