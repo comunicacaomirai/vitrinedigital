@@ -30,46 +30,27 @@
         appId: "96898809-38c2-4067-abf2-30fcaaeb653e",
         serviceWorkerParam: { scope: "/vitrinedigital/" },
         serviceWorkerPath: "OneSignalSDKWorker.js",
-        allowLocalhostAsSecureOrigin: true
+        allowLocalhostAsSecureOrigin: true,
+        promptOptions: {
+          slidedown: {
+            prompts: [
+              {
+                type: "push",
+                autoPrompt: false,
+                text: {
+                  actionMessage: "Deseja receber notificações das nossas melhores ofertas e sorteios?",
+                  acceptButton: "Sim, quero receber!",
+                  cancelButton: "Agora não"
+                }
+              }
+            ]
+          }
+        }
       });
 
-      // Aguarda 5 segundos após o carregamento para acionar o pedido de permissão
+      // Dispara o popup do OneSignal após 5 segundos de acesso na página
       setTimeout(async () => {
         try {
-          if (OneSignal.Notifications.isPushSupported()) {
-            await OneSignal.Notifications.requestPermission();
-          }
+          await OneSignal.Slidedown.showSlidedownPrompt();
         } catch (err) {
-          console.error("Erro ao solicitar permissão do OneSignal:", err);
-        }
-      }, 5000);
-    });
-  </script>
-</head>
-<body>
-
-  <header>
-    <h1>🔥 Ofertas & Promoções Exclusivas</h1>
-    <p class="sub">Aproveite os melhores descontos atualizados diariamente!</p>
-  </header>
-
-  <main class="ofertas-container">
-    <div class="card">
-      <div class="card-body">
-        <h2 class="card-title">Oferta Especial #1</h2>
-        <p class="card-desc">Confira os detalhes desta oportunidade e garanta seu desconto antes que acabe.</p>
-        <a href="#" class="btn">Ver Oferta</a>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-body">
-        <h2 class="card-title">Oferta Especial #2</h2>
-        <p class="card-desc">Mais uma seleção incrível de produtos com preços reduzidos.</p>
-        <a href="#" class="btn">Ver Oferta</a>
-      </div>
-    </div>
-  </main>
-
-</body>
-</html>
+          console.error("Erro ao exibir o popup do OneSignal:",
