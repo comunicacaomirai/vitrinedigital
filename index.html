@@ -3,86 +3,178 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vitrine Digital - Ofertas Exclusivas</title>
+  <title>Vitrine Digital - Ofertas, Promoções e Sorteios</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f5f7fa; color: #333; padding: 20px; }
-    header { text-align: center; margin-bottom: 30px; padding: 20px 0; background: #ffffff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-    h1 { color: #2c3e50; font-size: 1.8rem; margin-bottom: 8px; }
-    p.sub { color: #666; font-size: 0.95rem; }
-    
-    .ofertas-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; }
-    .card { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.2s; border: 1px solid #e1e8ed; }
-    .card:hover { transform: translateY(-4px); }
-    .card-body { padding: 20px; text-align: center; }
-    .card-title { font-size: 1.2rem; margin-bottom: 10px; color: #1a202c; }
-    .card-desc { color: #4a5568; font-size: 0.9rem; margin-bottom: 15px; }
-    .btn { display: inline-block; width: 100%; padding: 10px; background-color: #3182ce; color: white; font-weight: bold; text-decoration: none; border-radius: 6px; text-align: center; }
-    .btn:hover { background-color: #2b6cb0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f9;
+      color: #333;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px 20px;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      font-size: 1.05rem;
+      opacity: 0.9;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      color: #1e3c72;
+      margin-bottom: 15px;
+      border-left: 4px solid #ff6b6b;
+      padding-left: 10px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+      border: 1px solid #e1e8ed;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .badge {
+      display: inline-block;
+      align-self: flex-start;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      border-radius: 4px;
+      margin: 15px 15px 0 15px;
+    }
+
+    .badge-oferta { background-color: #e3f2fd; color: #1e88e5; }
+    .badge-sorteio { background-color: #f3e5f5; color: #8e24aa; }
+
+    .card-body {
+      padding: 15px;
+      flex-grow: 1;
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+      color: #222;
+    }
+
+    .card-desc {
+      font-size: 0.9rem;
+      color: #666;
+      line-height: 1.4;
+      margin-bottom: 15px;
+    }
+
+    .btn {
+      display: block;
+      text-align: center;
+      padding: 12px;
+      background-color: #ff6b6b;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 6px;
+      margin: 0 15px 15px 15px;
+      transition: background-color 0.2s;
+    }
+
+    .btn:hover {
+      background-color: #ee5253;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #777;
+      font-size: 0.85rem;
+      border-top: 1px solid #ddd;
+      margin-top: 20px;
+    }
   </style>
-
-  <!-- Script oficial do OneSignal SDK v16 -->
-  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-  <script>
-    window.OneSignalDeferred = window.OneSignalDeferred || [];
-    OneSignalDeferred.push(async function(OneSignal) {
-      await OneSignal.init({
-        appId: "96898809-38c2-4067-abf2-30fcaaeb653e",
-        serviceWorkerParam: { scope: "/vitrinedigital/" },
-        serviceWorkerPath: "OneSignalSDKWorker.js",
-        allowLocalhostAsSecureOrigin: true,
-        promptOptions: {
-          slidedown: {
-            prompts: [
-              {
-                type: "push",
-                autoPrompt: false,
-                text: {
-                  actionMessage: "Deseja receber notificações das nossas melhores ofertas e sorteios?",
-                  acceptButton: "Sim, quero receber!",
-                  cancelButton: "Agora não"
-                }
-              }
-            ]
-          }
-        }
-      });
-
-      // Dispara o popup do OneSignal após 5 segundos
-      setTimeout(async () => {
-        try {
-          await OneSignal.Slidedown.showSlidedownPrompt();
-        } catch (err) {
-          console.error("Erro ao exibir o popup do OneSignal:", err);
-        }
-      }, 5000);
-    });
-  </script>
 </head>
 <body>
 
-  <header>
-    <h1>🔥 Ofertas & Promoções Exclusivas</h1>
-    <p class="sub">Aproveite os melhores descontos atualizados diariamente!</p>
-  </header>
+  <div class="container">
+    <header>
+      <h1>🛍️ Vitrine Digital</h1>
+      <p>As melhores ofertas, promoções locais e sorteios exclusivos num só lugar!</p>
+    </header>
 
-  <main class="ofertas-container">
-    <div class="card">
-      <div class="card-body">
-        <h2 class="card-title">Oferta Especial #1</h2>
-        <p class="card-desc">Confira os detalhes desta oportunidade e garanta seu desconto antes que acabe.</p>
-        <a href="#" class="btn">Ver Oferta</a>
+    <!-- Seção de Ofertas & Promoções -->
+    <h2 class="section-title">🔥 Ofertas & Promoções</h2>
+    <div class="grid">
+      <div class="card">
+        <span class="badge badge-oferta">Desconto Especial</span>
+        <div class="card-body">
+          <h3 class="card-title">Oferta da Semana #1</h3>
+          <p class="card-desc">Aproveite os melhores produtos e serviços com descontos imperdíveis disponíveis por tempo limitado.</p>
+        </div>
+        <a href="#" class="btn">Garantir Desconto</a>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-oferta">Promoção Exclusiva</span>
+        <div class="card-body">
+          <h3 class="card-title">Cupom de Desconto #2</h3>
+          <p class="card-desc">Ganhe vantagens especiais ao apresentar este cupom na sua próxima compra ou pedido.</p>
+        </div>
+        <a href="#" class="btn">Pegar Cupom</a>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-body">
-        <h2 class="card-title">Oferta Especial #2</h2>
-        <p class="card-desc">Mais uma seleção incrível de produtos com preços reduzidos.</p>
-        <a href="#" class="btn">Ver Oferta</a>
+    <!-- Seção de Sorteios -->
+    <h2 class="section-title">🎁 Sorteios do Mês</h2>
+    <div class="grid">
+      <div class="card">
+        <span class="badge badge-sorteio">Sorteio Ativo</span>
+        <div class="card-body">
+          <h3 class="card-title">Sorteio de Prêmios Especial</h3>
+          <p class="card-desc">Participe gratuitamente do nosso sorteio e concorra a prêmios incríveis selecionados para a comunidade.</p>
+        </div>
+        <a href="#" class="btn" style="background-color: #8e24aa;">Participar do Sorteio</a>
       </div>
     </div>
-  </main>
+
+    <footer>
+      <p>&copy; Vitrine Digital. Todos os direitos reservados.</p>
+    </footer>
+  </div>
 
 </body>
 </html>
