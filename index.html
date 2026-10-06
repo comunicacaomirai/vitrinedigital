@@ -21,21 +21,27 @@
     .btn:hover { background-color: #2b6cb0; }
   </style>
 
-  <!-- Script oficial do OneSignal -->
+  <!-- Script oficial do OneSignal SDK v16 -->
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script>
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     OneSignalDeferred.push(async function(OneSignal) {
       await OneSignal.init({
-        appId: "96898809-38c2-4067-abf2-30fcaaeb653e", // Insira seu App ID do OneSignal (Settings > Keys & IDs)
+        appId: "96898809-38c2-4067-abf2-30fcaaeb653e",
         serviceWorkerParam: { scope: "/vitrinedigital/" },
-        serviceWorkerPath: "/vitrinedigital/OneSignalSDKWorker.js",
-        autoRegister: false,
+        serviceWorkerPath: "OneSignalSDKWorker.js",
+        allowLocalhostAsSecureOrigin: true
       });
 
-      // Aguarda 5 segundos (5000ms) após carregar a página para pedir permissão
-      setTimeout(() => {
-        OneSignal.Notifications.requestPermission();
+      // Aguarda 5 segundos após o carregamento para acionar o pedido de permissão
+      setTimeout(async () => {
+        try {
+          if (OneSignal.Notifications.isPushSupported()) {
+            await OneSignal.Notifications.requestPermission();
+          }
+        } catch (err) {
+          console.error("Erro ao solicitar permissão do OneSignal:", err);
+        }
       }, 5000);
     });
   </script>
