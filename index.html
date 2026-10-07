@@ -36,7 +36,7 @@
     
     .card { background: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.06); border: 1px solid #e1e8ed; display: flex; flex-direction: column; justify-content: space-between; }
     
-    /* PADRONIZAÇÃO DAS IMAGENS NO FORMATO INSTAGRAM (PROPORÇÃO 4:5) */
+    /* PROPORÇÃO INSTAGRAM (4:5) */
     .card-img-container { width: 100%; aspect-ratio: 4 / 5; background-color: #eef2f7; overflow: hidden; position: relative; cursor: zoom-in; }
     .card-img { width: 100%; height: 100%; object-fit: cover; display: none; transition: transform 0.3s ease; }
     .card-img-container:hover .card-img { transform: scale(1.03); }
@@ -59,11 +59,11 @@
     #secao-sorteio { display: none; margin-bottom: 30px; }
     .card-oferta-item { display: none; }
 
-    /* MODAL DE EXPANSÃO / ZOOM DA IMAGEM */
+    /* MODAL LIGHTBOX ZOOM */
     .modal-lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 15px; cursor: zoom-out; }
     .modal-lightbox img { max-width: 95%; max-height: 90vh; border-radius: 8px; box-shadow: 0 5px 25px rgba(0,0,0,0.5); object-fit: contain; }
 
-    /* ESTILOS DO PAINEL ADMINISTRATIVO E MODAIS */
+    /* MODAIS ADMINISTRATIVOS */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 20px; overflow-y: auto; }
     .modal-content { background: #fff; border-radius: 12px; width: 100%; max-width: 650px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
     .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f4f6f9; padding-bottom: 15px; margin-bottom: 20px; }
@@ -95,7 +95,6 @@
       <p>As melhores ofertas, promoções locais e sorteios exclusivos num só lugar!</p>
     </header>
 
-    <!-- BOTÕES SUPERIORES DE AÇÃO -->
     <div class="top-actions">
       <button class="btn-action-top btn-push" onclick="ativarNotificacoesEPWA()">
         🔔 RECEBA NOTIFICAÇÕES
@@ -105,7 +104,7 @@
       </a>
     </div>
 
-    <!-- SEÇÃO DE SORTEIO (DESTAQUE NO TOPO) -->
+    <!-- SEÇÃO DE SORTEIO DESTAQUE -->
     <div id="secao-sorteio">
       <h2 class="section-title section-title-sorteio" id="titulo-secao-sorteio">🎁 Sorteio em Destaque</h2>
       <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 400px)); justify-content: center;">
@@ -127,8 +126,6 @@
     <!-- SEÇÃO DE OFERTAS & PROMOÇÕES -->
     <h2 class="section-title" id="titulo-secao-ofertas">🔥 Ofertas & Promoções</h2>
     <div class="grid">
-      
-      <!-- Cards de 1 a 6 -->
       <div class="card card-oferta-item" id="item-card-1">
         <div class="card-img-container" id="container-img-1" onclick="expandirImagem('img-card-1')">
           <img src="" id="img-card-1" class="card-img" alt="Oferta 1">
@@ -215,12 +212,10 @@
     </footer>
   </div>
 
-  <!-- MODAL DE ZOOM DA IMAGEM (LIGHTBOX) -->
   <div class="modal-lightbox" id="modal-lightbox" onclick="fecharModais()">
     <img id="img-lightbox-src" src="" alt="Imagem Ampliada">
   </div>
 
-  <!-- MODAL INSTRUÇÃO IOS -->
   <div class="modal-overlay" id="modal-ios-pwa">
     <div class="modal-content" style="max-width: 400px; text-align: center;">
       <div class="modal-header">
@@ -231,7 +226,7 @@
         Para receber notificações e instalar o app da Vitrine Digital no seu iPhone/iPad:
       </p>
       <ol style="text-align: left; font-size: 0.9rem; color: #333; padding-left: 20px; line-height: 1.8; margin-bottom: 20px;">
-        <li>Toque no ícone de <strong>Compartilhar</strong> (quadrado com seta pra cima no menu do Safari).</li>
+        <li>Toque no ícone de <strong>Compartilhar</strong> (quadrado com seta pra cima no Safari).</li>
         <li>Role as opções e selecione <strong>"Adicionar à Tela de Início"</strong>.</li>
         <li>Abra o ícone criado na sua tela inicial para ativar os alertas!</li>
       </ol>
@@ -239,7 +234,6 @@
     </div>
   </div>
 
-  <!-- MODAL DE LOGIN -->
   <div class="modal-overlay" id="modal-login">
     <div class="modal-content" style="max-width: 380px;">
       <div class="modal-header">
@@ -260,7 +254,6 @@
     </div>
   </div>
 
-  <!-- MODAL DO PAINEL DE CONTROLE -->
   <div class="modal-overlay" id="modal-admin">
     <div class="modal-content">
       <div class="modal-header">
@@ -269,17 +262,14 @@
       </div>
 
       <form onsubmit="salvarConteudo(event)">
-        
-        <!-- BOTÃO COMUNIDADE -->
         <div class="card-block-admin" style="border-left: 4px solid #25d366;">
           <h4 style="margin-bottom: 10px; color: #25d366;">💬 Configuração do Botão Comunidade</h4>
           <div class="form-group">
-            <label>Link do Botão Comunidade (WhatsApp, Telegram, etc.)</label>
+            <label>Link do Botão Comunidade</label>
             <input type="text" id="input-btn-comunidade-link" placeholder="https://chat.whatsapp.com/...">
           </div>
         </div>
 
-        <!-- MÓDULO DE SORTEIO -->
         <div class="card-block-admin" style="border-left: 4px solid #8e24aa;">
           <h4 style="margin-bottom: 10px; color: #8e24aa;">🎁 Módulo de Sorteio (Destaque do Topo)</h4>
           <div class="toggle-group">
@@ -307,24 +297,22 @@
             <input type="text" id="input-btn-link-sorteio" placeholder="https://exemplo.com">
           </div>
           <div class="form-group">
-            <label>Upload de Imagem do Sorteio (Proporção 4:5)</label>
+            <label>Upload de Imagem (Proporção 4:5)</label>
             <input type="file" accept="image/*" onchange="converterImagemBase64(this, 'preview-img-sorteio', 'input-img-card-sorteio')">
             <input type="hidden" id="input-img-card-sorteio">
             <img id="preview-img-sorteio" class="preview-img-admin" alt="Preview Sorteio">
           </div>
         </div>
 
-        <!-- TÍTULO DA SEÇÃO PRINCIPAL -->
         <div class="form-group">
           <label>Título da Seção de Ofertas</label>
           <input type="text" id="input-titulo-secao-ofertas">
         </div>
 
-        <!-- FORMULÁRIO DINÂMICO DOS 6 CARDS -->
         <div id="container-inputs-cards"></div>
 
         <div class="admin-actions">
-          <button type="submit" class="btn-save">Salvar Alterações</button>
+          <button type="submit" class="btn-save" id="btn-salvar-admin">Salvar na Nuvem</button>
           <button type="button" class="btn-logout" onclick="logout()">Sair</button>
         </div>
       </form>
@@ -335,6 +323,11 @@
     const USER_ADMIN = "admin";
     const PASS_ADMIN = "1234";
 
+    // CHAVES CONFIGURADAS DO JSONBIN
+    const BIN_ID = "6ac6720bac6210605a1cecc1";
+    const MASTER_KEY = "$2a$10$yE4MooY0/kQFNW8E9VuhyuLMRpNVkGUVzMkR/mWLDRXNdUeP/IsP6";
+
+    let dadosCache = null;
     let deferredPrompt = null;
 
     window.addEventListener("beforeinstallprompt", (e) => {
@@ -342,31 +335,19 @@
       deferredPrompt = e;
     });
 
-    const dadosPadrao = {
-      linkComunidade: "#",
-      tituloSecaoOfertas: "🔥 Ofertas & Promoções",
-      sorteioHabilitado: false,
-      tituloSecaoSorteio: "🎁 Sorteio em Destaque",
-      cardSorteio: {
-        titulo: "Sorteio de Prêmios Especial",
-        desc: "Participe gratuitamente do nosso sorteio e concorra a prêmios incríveis.",
-        btnTexto: "Participar do Sorteio",
-        btnLink: "#",
-        imgUrl: ""
-      },
-      cards: [
-        { habilitado: true, titulo: "Oferta da Semana #1", desc: "Aproveite os melhores produtos e serviços com descontos imperdíveis.", btnTexto: "Garantir Desconto", btnLink: "#", imgUrl: "" },
-        { habilitado: false, titulo: "Cupom de Desconto #2", desc: "Ganhe vantagens especiais ao apresentar este cupom.", btnTexto: "Pegar Cupom", btnLink: "#", imgUrl: "" },
-        { habilitado: false, titulo: "Oferta Especial #3", desc: "Confira esta super promoção disponível por tempo limitado.", btnTexto: "Ver Oferta", btnLink: "#", imgUrl: "" },
-        { habilitado: false, titulo: "Oferta Especial #4", desc: "Confira esta super promoção disponível por tempo limitado.", btnTexto: "Ver Oferta", btnLink: "#", imgUrl: "" },
-        { habilitado: false, titulo: "Oferta Especial #5", desc: "Confira esta super promoção disponível por tempo limitado.", btnTexto: "Ver Oferta", btnLink: "#", imgUrl: "" },
-        { habilitado: false, titulo: "Oferta Especial #6", desc: "Confira esta super promoção disponível por tempo limitado.", btnTexto: "Ver Oferta", btnLink: "#", imgUrl: "" }
-      ]
-    };
-
-    function obterDados() {
-      const salvas = localStorage.getItem("vitrine_dados");
-      return salvas ? JSON.parse(salvas) : dadosPadrao;
+    async function obterDadosNuvem() {
+      if (dadosCache) return dadosCache;
+      try {
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+          headers: { "X-Master-Key": MASTER_KEY }
+        });
+        const data = await res.json();
+        dadosCache = data.record;
+        return dadosCache;
+      } catch (e) {
+        console.error("Erro ao buscar dados na nuvem:", e);
+        return null;
+      }
     }
 
     function formatarLink(url) {
@@ -378,13 +359,12 @@
       return linkLimpo;
     }
 
-    function renderizarSite() {
-      const d = obterDados();
+    async function renderizarSite() {
+      const d = await obterDadosNuvem();
+      if (!d) return;
 
-      // Link Comunidade
       document.getElementById("btn-comunidade-link").href = formatarLink(d.linkComunidade);
 
-      // Sorteio
       const secaoSorteio = document.getElementById("secao-sorteio");
       if (d.sorteioHabilitado) {
         secaoSorteio.style.display = "block";
@@ -398,10 +378,8 @@
         secaoSorteio.style.display = "none";
       }
 
-      // Seção Ofertas
       document.getElementById("titulo-secao-ofertas").innerText = d.tituloSecaoOfertas;
 
-      // Cards
       d.cards.forEach((card, index) => {
         const i = index + 1;
         const itemEl = document.getElementById(`item-card-${i}`);
@@ -432,7 +410,6 @@
       }
     }
 
-    // EXPANDIR IMAGEM (ZOOM)
     function expandirImagem(idImg) {
       const src = document.getElementById(idImg).src;
       if (src) {
@@ -477,12 +454,12 @@
       }
     }
 
-    function preencherFormularioAdmin() {
-      const d = obterDados();
+    async function preencherFormularioAdmin() {
+      const d = await obterDadosNuvem();
+      if (!d) return;
 
       document.getElementById("input-btn-comunidade-link").value = d.linkComunidade || "";
 
-      // Sorteio
       document.getElementById("input-habilitar-sorteio").checked = d.sorteioHabilitado;
       document.getElementById("input-titulo-secao-sorteio").value = d.tituloSecaoSorteio;
       document.getElementById("input-titulo-card-sorteio").value = d.cardSorteio.titulo;
@@ -539,8 +516,11 @@
       });
     }
 
-    function salvarConteudo(e) {
+    async function salvarConteudo(e) {
       e.preventDefault();
+      const btnSalvar = document.getElementById("btn-salvar-admin");
+      btnSalvar.innerText = "Salvando na Nuvem...";
+      btnSalvar.disabled = true;
 
       const cardsSalvar = [];
       for (let i = 1; i <= 6; i++) {
@@ -569,10 +549,31 @@
         cards: cardsSalvar
       };
 
-      localStorage.setItem("vitrine_dados", JSON.stringify(novosDados));
-      renderizarSite();
-      fecharModais();
-      alert("Conteúdo atualizado com sucesso!");
+      try {
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Master-Key": MASTER_KEY
+          },
+          body: JSON.stringify(novosDados)
+        });
+
+        if (res.ok) {
+          dadosCache = novosDados;
+          await renderizarSite();
+          fecharModais();
+          alert("Conteúdo atualizado com sucesso para todos os usuários!");
+        } else {
+          alert("Erro ao salvar dados na nuvem. Verifique suas chaves.");
+        }
+      } catch (err) {
+        console.error("Erro na requisição:", err);
+        alert("Erro na conexão ao salvar na nuvem.");
+      } finally {
+        btnSalvar.innerText = "Salvar na Nuvem";
+        btnSalvar.disabled = false;
+      }
     }
 
     function abrirPainel() {
