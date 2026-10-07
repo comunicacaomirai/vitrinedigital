@@ -297,8 +297,8 @@
             <input type="text" id="input-btn-link-sorteio" placeholder="https://exemplo.com">
           </div>
           <div class="form-group">
-            <label>Upload de Imagem (Proporção 4:5)</label>
-            <input type="file" accept="image/*" onchange="converterImagemBase64(this, 'preview-img-sorteio', 'input-img-card-sorteio')">
+            <label>Upload de Imagem (Proporção 4:5 - Comprimida auto)</label>
+            <input type="file" accept="image/*" onchange="converterEComprimirImagem(this, 'preview-img-sorteio', 'input-img-card-sorteio')">
             <input type="hidden" id="input-img-card-sorteio">
             <img id="preview-img-sorteio" class="preview-img-admin" alt="Preview Sorteio">
           </div>
@@ -323,7 +323,6 @@
     const USER_ADMIN = "admin";
     const PASS_ADMIN = "1234";
 
-    // CHAVES CONFIGURADAS DO JSONBIN
     const BIN_ID = "6ac6720bac6210605a1cecc1";
     const MASTER_KEY = "$2a$10$yE4MooY0/kQFNW8E9VuhyuLMRpNVkGUVzMkR/mWLDRXNdUeP/IsP6";
 
@@ -439,16 +438,40 @@
       }
     }
 
-    function converterImagemBase64(input, previewId, hiddenInputId) {
+    // CONVERSOR E COMPRESSOR DE IMAGEM VIA CANVAS JS
+    function converterEComprimirImagem(input, previewId, hiddenInputId) {
       const file = input.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
-          const result = e.target.result;
-          document.getElementById(hiddenInputId).value = result;
-          const preview = document.getElementById(previewId);
-          preview.src = result;
-          preview.style.display = "block";
+          const img = new Image();
+          img.src = e.target.result;
+          img.onload = function() {
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+
+            // Redimensiona mantendo resolução otimizada (Max 800px de largura)
+            const maxLargura = 800;
+            let largura = img.width;
+            let altura = img.height;
+
+            if (largura > maxLargura) {
+              altura = Math.round((maxLargura * altura) / largura);
+              largura = maxLargura;
+            }
+
+            canvas.width = largura;
+            canvas.height = altura;
+            ctx.drawImage(img, 0, 0, largura, altura);
+
+            // Comprime a imagem para JPEG com qualidade de 70% (fica em ~100kb)
+            const imagemComprimida = canvas.toDataURL("image/jpeg", 0.7);
+
+            document.getElementById(hiddenInputId).value = imagemComprimida;
+            const preview = document.getElementById(previewId);
+            preview.src = imagemComprimida;
+            preview.style.display = "block";
+          };
         };
         reader.readAsDataURL(file);
       }
@@ -505,8 +528,8 @@
               <input type="text" id="input-btn-link-${i}" value="${card.btnLink}" placeholder="https://exemplo.com">
             </div>
             <div class="form-group">
-              <label>Upload de Imagem (Proporção 4:5)</label>
-              <input type="file" accept="image/*" onchange="converterImagemBase64(this, 'preview-img-${i}', 'input-img-card-${i}')">
+              <label>Upload de Imagem (Proporção 4:5 - Comprimida auto)</label>
+              <input type="file" accept="image/*" onchange="converterEComprimirImagem(this, 'preview-img-${i}', 'input-img-card-${i}')">
               <input type="hidden" id="input-img-card-${i}" value="${card.imgUrl}">
               <img id="preview-img-${i}" class="preview-img-admin" src="${card.imgUrl}" style="display: ${card.imgUrl ? 'block' : 'none'};">
             </div>
