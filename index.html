@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vitrine Digital - Ofertas, Promoções e Sorteios</title>
 
+  <!-- Tags PWA para instalação na tela inicial (Android e iOS) -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Vitrine Digital">
+
   <!-- Script oficial do SendPulse Web Push -->
   <script charset="UTF-8" src="//web.webpushs.com/js/push/c015cbdfdb33e1b5e6d6f6ab4ae928c8_1.js" async></script>
 
@@ -12,11 +17,17 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f9; color: #333; padding: 20px; }
 
-    /* Estilos do Site Público */
     .container { max-width: 1100px; margin: 0 auto; }
-    header { text-align: center; padding: 30px 20px; background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 30px; }
+    header { text-align: center; padding: 25px 20px 15px 20px; background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 20px; }
     header h1 { font-size: 2.2rem; margin-bottom: 8px; }
     header p { font-size: 1.05rem; opacity: 0.9; }
+
+    /* BARRA DE BOTÕES RÁPIDOS */
+    .top-actions { display: flex; justify-content: center; gap: 12px; margin-bottom: 25px; flex-wrap: wrap; }
+    .btn-action-top { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 18px; border-radius: 20px; font-weight: bold; font-size: 0.88rem; border: none; cursor: pointer; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 3px 6px rgba(0,0,0,0.1); }
+    .btn-action-top:hover { transform: translateY(-2px); box-shadow: 0 5px 10px rgba(0,0,0,0.15); }
+    .btn-push { background-color: #00b894; color: white; }
+    .btn-comunidade { background-color: #25d366; color: white; }
 
     .section-title { font-size: 1.5rem; color: #1e3c72; margin-bottom: 15px; border-left: 4px solid #ff6b6b; padding-left: 10px; }
     .section-title-sorteio { border-left-color: #8e24aa; color: #8e24aa; }
@@ -39,11 +50,10 @@
     footer { text-align: center; padding: 20px; color: #777; font-size: 0.85rem; border-top: 1px solid #ddd; margin-top: 20px; }
     .admin-link { color: #aaa; text-decoration: none; font-size: 0.75rem; cursor: pointer; display: inline-block; margin-top: 10px; }
 
-    /* Ocultar elementos por padrão caso desabilitados */
     #secao-sorteio { display: none; margin-bottom: 30px; }
     .card-oferta-item { display: none; }
 
-    /* --- ESTILOS DO PAINEL ADMINISTRATIVO (MODAL) --- */
+    /* ESTILOS DO PAINEL ADMINISTRATIVO E MODAIS */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 20px; overflow-y: auto; }
     .modal-content { background: #fff; border-radius: 12px; width: 100%; max-width: 650px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
     .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f4f6f9; padding-bottom: 15px; margin-bottom: 20px; }
@@ -58,12 +68,13 @@
     .toggle-group { display: flex; align-items: center; gap: 10px; background: #eef2f7; padding: 10px; border-radius: 6px; margin-bottom: 15px; }
     .toggle-group label { margin-bottom: 0; cursor: pointer; font-weight: bold; font-size: 0.9rem; }
 
-    .admin-actions { display: flex; gap: 10px; margin-top: 20px; sticky: bottom; }
+    .admin-actions { display: flex; gap: 10px; margin-top: 20px; }
     .btn-save { background: #27ae60; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; flex: 1; }
     .btn-save:hover { background: #219150; }
     .btn-logout { background: #e74c3c; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; }
     
     .card-block-admin { background: #fafafa; border: 1px solid #e0e0e0; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+    .preview-img-admin { max-width: 100%; height: 80px; object-fit: cover; border-radius: 4px; margin-top: 8px; display: none; }
   </style>
 </head>
 <body>
@@ -73,6 +84,16 @@
       <h1>🛍️ Vitrine Digital</h1>
       <p>As melhores ofertas, promoções locais e sorteios exclusivos num só lugar!</p>
     </header>
+
+    <!-- BOTÕES SUPERIORES DE AÇÃO -->
+    <div class="top-actions">
+      <button class="btn-action-top btn-push" onclick="ativarNotificacoesEPWA()">
+        🔔 RECEBA NOTIFICAÇÕES
+      </button>
+      <a href="#" id="btn-comunidade-link" target="_blank" class="btn-action-top btn-comunidade">
+        💬 PARTICIPAR DA COMUNIDADE
+      </a>
+    </div>
 
     <!-- SEÇÃO DE SORTEIO (DESTAQUE NO TOPO) -->
     <div id="secao-sorteio">
@@ -85,7 +106,7 @@
             <h3 class="card-title" id="titulo-card-sorteio">Sorteio de Prêmios Especial</h3>
             <p class="card-desc" id="desc-card-sorteio">Participe gratuitamente do nosso sorteio e concorra a prêmios incríveis.</p>
           </div>
-          <a href="#" id="btn-link-sorteio" class="btn" style="background-color: #8e24aa;">Participar do Sorteio</a>
+          <a href="#" id="btn-link-sorteio" target="_blank" class="btn" style="background-color: #8e24aa;">Participar do Sorteio</a>
         </div>
       </div>
     </div>
@@ -94,29 +115,27 @@
     <h2 class="section-title" id="titulo-secao-ofertas">🔥 Ofertas & Promoções</h2>
     <div class="grid">
       
-      <!-- Card 1 -->
+      <!-- Cards de 1 a 6 -->
       <div class="card card-oferta-item" id="item-card-1">
         <img src="" id="img-card-1" class="card-img" alt="Oferta 1">
         <span class="badge badge-oferta">Desconto Especial</span>
         <div class="card-body">
           <h3 class="card-title" id="titulo-card-1">Oferta da Semana #1</h3>
-          <p class="card-desc" id="desc-card-1">Aproveite os melhores produtos e serviços com descontos imperdíveis por tempo limitado.</p>
+          <p class="card-desc" id="desc-card-1">Aproveite os melhores produtos e serviços com descontos imperdíveis.</p>
         </div>
-        <a href="#" id="btn-link-1" class="btn">Garantir Desconto</a>
+        <a href="#" id="btn-link-1" target="_blank" class="btn">Garantir Desconto</a>
       </div>
 
-      <!-- Card 2 -->
       <div class="card card-oferta-item" id="item-card-2">
         <img src="" id="img-card-2" class="card-img" alt="Oferta 2">
         <span class="badge badge-oferta">Promoção Exclusiva</span>
         <div class="card-body">
           <h3 class="card-title" id="titulo-card-2">Cupom de Desconto #2</h3>
-          <p class="card-desc" id="desc-card-2">Ganhe vantagens especiais ao apresentar este cupom na sua próxima compra.</p>
+          <p class="card-desc" id="desc-card-2">Ganhe vantagens especiais ao apresentar este cupom.</p>
         </div>
-        <a href="#" id="btn-link-2" class="btn">Pegar Cupom</a>
+        <a href="#" id="btn-link-2" target="_blank" class="btn">Pegar Cupom</a>
       </div>
 
-      <!-- Card 3 -->
       <div class="card card-oferta-item" id="item-card-3">
         <img src="" id="img-card-3" class="card-img" alt="Oferta 3">
         <span class="badge badge-oferta">Promoção #3</span>
@@ -124,10 +143,9 @@
           <h3 class="card-title" id="titulo-card-3">Oferta Especial #3</h3>
           <p class="card-desc" id="desc-card-3">Descrição da promoção 3.</p>
         </div>
-        <a href="#" id="btn-link-3" class="btn">Aproveitar</a>
+        <a href="#" id="btn-link-3" target="_blank" class="btn">Aproveitar</a>
       </div>
 
-      <!-- Card 4 -->
       <div class="card card-oferta-item" id="item-card-4">
         <img src="" id="img-card-4" class="card-img" alt="Oferta 4">
         <span class="badge badge-oferta">Promoção #4</span>
@@ -135,10 +153,9 @@
           <h3 class="card-title" id="titulo-card-4">Oferta Especial #4</h3>
           <p class="card-desc" id="desc-card-4">Descrição da promoção 4.</p>
         </div>
-        <a href="#" id="btn-link-4" class="btn">Aproveitar</a>
+        <a href="#" id="btn-link-4" target="_blank" class="btn">Aproveitar</a>
       </div>
 
-      <!-- Card 5 -->
       <div class="card card-oferta-item" id="item-card-5">
         <img src="" id="img-card-5" class="card-img" alt="Oferta 5">
         <span class="badge badge-oferta">Promoção #5</span>
@@ -146,10 +163,9 @@
           <h3 class="card-title" id="titulo-card-5">Oferta Especial #5</h3>
           <p class="card-desc" id="desc-card-5">Descrição da promoção 5.</p>
         </div>
-        <a href="#" id="btn-link-5" class="btn">Aproveitar</a>
+        <a href="#" id="btn-link-5" target="_blank" class="btn">Aproveitar</a>
       </div>
 
-      <!-- Card 6 -->
       <div class="card card-oferta-item" id="item-card-6">
         <img src="" id="img-card-6" class="card-img" alt="Oferta 6">
         <span class="badge badge-oferta">Promoção #6</span>
@@ -157,7 +173,7 @@
           <h3 class="card-title" id="titulo-card-6">Oferta Especial #6</h3>
           <p class="card-desc" id="desc-card-6">Descrição da promoção 6.</p>
         </div>
-        <a href="#" id="btn-link-6" class="btn">Aproveitar</a>
+        <a href="#" id="btn-link-6" target="_blank" class="btn">Aproveitar</a>
       </div>
 
     </div>
@@ -166,6 +182,25 @@
       <p>&copy; Vitrine Digital. Todos os direitos reservados.</p>
       <a class="admin-link" onclick="abrirPainel()">⚙️ Acesso Restrito (Painel)</a>
     </footer>
+  </div>
+
+  <!-- MODAL INSTRUÇÃO IOS -->
+  <div class="modal-overlay" id="modal-ios-pwa">
+    <div class="modal-content" style="max-width: 400px; text-align: center;">
+      <div class="modal-header">
+        <h3 class="modal-title">📲 Adicionar à Tela Inicial</h3>
+        <button class="close-btn" onclick="fecharModais()">&times;</button>
+      </div>
+      <p style="font-size: 0.95rem; color: #555; line-height: 1.5; margin-bottom: 15px;">
+        Para receber notificações e instalar o app da Vitrine Digital no seu iPhone/iPad:
+      </p>
+      <ol style="text-align: left; font-size: 0.9rem; color: #333; padding-left: 20px; line-height: 1.8; margin-bottom: 20px;">
+        <li>Toque no ícone de <strong>Compartilhar</strong> (quadrado com seta pra cima no menu do Safari).</li>
+        <li>Role as opções e selecione <strong>"Adicionar à Tela de Início"</strong>.</li>
+        <li>Abra o ícone criado na sua tela inicial para ativar os alertas!</li>
+      </ol>
+      <button class="btn-save" onclick="fecharModais()" style="width: 100%;">Entendi</button>
+    </div>
   </div>
 
   <!-- MODAL DE LOGIN -->
@@ -199,6 +234,15 @@
 
       <form onsubmit="salvarConteudo(event)">
         
+        <!-- BOTÃO COMUNIDADE -->
+        <div class="card-block-admin" style="border-left: 4px solid #25d366;">
+          <h4 style="margin-bottom: 10px; color: #25d366;">💬 Configuração do Botão Comunidade</h4>
+          <div class="form-group">
+            <label>Link do Botão Comunidade (WhatsApp, Telegram, etc.)</label>
+            <input type="text" id="input-btn-comunidade-link" placeholder="https://chat.whatsapp.com/...">
+          </div>
+        </div>
+
         <!-- MÓDULO DE SORTEIO -->
         <div class="card-block-admin" style="border-left: 4px solid #8e24aa;">
           <h4 style="margin-bottom: 10px; color: #8e24aa;">🎁 Módulo de Sorteio (Destaque do Topo)</h4>
@@ -223,12 +267,14 @@
             <input type="text" id="input-btn-texto-sorteio">
           </div>
           <div class="form-group">
-            <label>Link do Botão (URL)</label>
-            <input type="url" id="input-btn-link-sorteio">
+            <label>Link do Botão</label>
+            <input type="text" id="input-btn-link-sorteio" placeholder="https://exemplo.com">
           </div>
           <div class="form-group">
-            <label>URL da Imagem (Opcional)</label>
-            <input type="url" id="input-img-card-sorteio" placeholder="https://exemplo.com/imagem.jpg">
+            <label>Upload de Imagem do Sorteio</label>
+            <input type="file" accept="image/*" onchange="converterImagemBase64(this, 'preview-img-sorteio', 'input-img-card-sorteio')">
+            <input type="hidden" id="input-img-card-sorteio">
+            <img id="preview-img-sorteio" class="preview-img-admin" alt="Preview Sorteio">
           </div>
         </div>
 
@@ -238,7 +284,7 @@
           <input type="text" id="input-titulo-secao-ofertas">
         </div>
 
-        <!-- FORMULÁRIO DINÂMICO PARA OS 6 CARDS -->
+        <!-- FORMULÁRIO DINÂMICO DOS 6 CARDS -->
         <div id="container-inputs-cards"></div>
 
         <div class="admin-actions">
@@ -253,7 +299,16 @@
     const USER_ADMIN = "admin";
     const PASS_ADMIN = "1234";
 
+    let deferredPrompt = null;
+
+    // Captura evento de instalação do PWA no Android
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+    });
+
     const dadosPadrao = {
+      linkComunidade: "#",
       tituloSecaoOfertas: "🔥 Ofertas & Promoções",
       sorteioHabilitado: false,
       tituloSecaoSorteio: "🎁 Sorteio em Destaque",
@@ -279,8 +334,20 @@
       return salvas ? JSON.parse(salvas) : dadosPadrao;
     }
 
+    function formatarLink(url) {
+      if (!url || url.trim() === "" || url === "#") return "#";
+      let linkLimpo = url.trim();
+      if (!linkLimpo.startsWith("http://") && !linkLimpo.startsWith("https://")) {
+        linkLimpo = "https://" + linkLimpo;
+      }
+      return linkLimpo;
+    }
+
     function renderizarSite() {
       const d = obterDados();
+
+      // Link Comunidade
+      document.getElementById("btn-comunidade-link").href = formatarLink(d.linkComunidade);
 
       // Sorteio
       const secaoSorteio = document.getElementById("secao-sorteio");
@@ -290,7 +357,7 @@
         document.getElementById("titulo-card-sorteio").innerText = d.cardSorteio.titulo;
         document.getElementById("desc-card-sorteio").innerText = d.cardSorteio.desc;
         document.getElementById("btn-link-sorteio").innerText = d.cardSorteio.btnTexto;
-        document.getElementById("btn-link-sorteio").href = d.cardSorteio.btnLink || "#";
+        document.getElementById("btn-link-sorteio").href = formatarLink(d.cardSorteio.btnLink);
         atualizarImagem("img-card-sorteio", d.cardSorteio.imgUrl);
       } else {
         secaoSorteio.style.display = "none";
@@ -299,7 +366,7 @@
       // Seção Ofertas
       document.getElementById("titulo-secao-ofertas").innerText = d.tituloSecaoOfertas;
 
-      // Renderizar Cards de Ofertas
+      // Cards
       d.cards.forEach((card, index) => {
         const i = index + 1;
         const itemEl = document.getElementById(`item-card-${i}`);
@@ -309,7 +376,7 @@
           document.getElementById(`titulo-card-${i}`).innerText = card.titulo;
           document.getElementById(`desc-card-${i}`).innerText = card.desc;
           document.getElementById(`btn-link-${i}`).innerText = card.btnTexto;
-          document.getElementById(`btn-link-${i}`).href = card.btnLink || "#";
+          document.getElementById(`btn-link-${i}`).href = formatarLink(card.btnLink);
           atualizarImagem(`img-card-${i}`, card.imgUrl);
         } else {
           itemEl.style.display = "none";
@@ -327,8 +394,49 @@
       }
     }
 
+    // AÇÃO DO BOTÃO "RECEBA NOTIFICAÇÕES"
+    function ativarNotificacoesEPWA() {
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+      if (isIOS) {
+        document.getElementById("modal-ios-pwa").style.display = "flex";
+      } else {
+        // Dispara instalação PWA no Android se disponível
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+        }
+        
+        // Dispara o prompt de notificações
+        if (typeof sendpulse !== "undefined" && sendpulse.push) {
+          sendpulse.push.subscribe();
+        } else if (Notification && Notification.permission !== "granted") {
+          Notification.requestPermission();
+        } else {
+          alert("Notificações já estão ativadas no seu navegador!");
+        }
+      }
+    }
+
+    function converterImagemBase64(input, previewId, hiddenInputId) {
+      const file = input.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const result = e.target.result;
+          document.getElementById(hiddenInputId).value = result;
+          const preview = document.getElementById(previewId);
+          preview.src = result;
+          preview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
     function preencherFormularioAdmin() {
       const d = obterDados();
+
+      document.getElementById("input-btn-comunidade-link").value = d.linkComunidade || "";
 
       // Sorteio
       document.getElementById("input-habilitar-sorteio").checked = d.sorteioHabilitado;
@@ -338,11 +446,15 @@
       document.getElementById("input-btn-texto-sorteio").value = d.cardSorteio.btnTexto;
       document.getElementById("input-btn-link-sorteio").value = d.cardSorteio.btnLink;
       document.getElementById("input-img-card-sorteio").value = d.cardSorteio.imgUrl;
+      
+      if (d.cardSorteio.imgUrl) {
+        const prevSorteio = document.getElementById("preview-img-sorteio");
+        prevSorteio.src = d.cardSorteio.imgUrl;
+        prevSorteio.style.display = "block";
+      }
 
-      // Titulo Ofertas
       document.getElementById("input-titulo-secao-ofertas").value = d.tituloSecaoOfertas;
 
-      // Gerar formulários dos 6 cards
       const container = document.getElementById("container-inputs-cards");
       container.innerHTML = "";
 
@@ -368,12 +480,14 @@
               <input type="text" id="input-btn-texto-${i}" value="${card.btnTexto}">
             </div>
             <div class="form-group">
-              <label>Link do Botão (URL)</label>
-              <input type="url" id="input-btn-link-${i}" value="${card.btnLink}">
+              <label>Link do Botão</label>
+              <input type="text" id="input-btn-link-${i}" value="${card.btnLink}" placeholder="https://exemplo.com">
             </div>
             <div class="form-group">
-              <label>URL da Imagem (Opcional)</label>
-              <input type="url" id="input-img-card-${i}" value="${card.imgUrl}" placeholder="https://exemplo.com/imagem.jpg">
+              <label>Upload de Imagem</label>
+              <input type="file" accept="image/*" onchange="converterImagemBase64(this, 'preview-img-${i}', 'input-img-card-${i}')">
+              <input type="hidden" id="input-img-card-${i}" value="${card.imgUrl}">
+              <img id="preview-img-${i}" class="preview-img-admin" src="${card.imgUrl}" style="display: ${card.imgUrl ? 'block' : 'none'};">
             </div>
           </div>
         `;
@@ -397,6 +511,7 @@
       }
 
       const novosDados = {
+        linkComunidade: document.getElementById("input-btn-comunidade-link").value,
         tituloSecaoOfertas: document.getElementById("input-titulo-secao-ofertas").value,
         sorteioHabilitado: document.getElementById("input-habilitar-sorteio").checked,
         tituloSecaoSorteio: document.getElementById("input-titulo-secao-sorteio").value,
@@ -449,6 +564,7 @@
     function fecharModais() {
       document.getElementById("modal-login").style.display = "none";
       document.getElementById("modal-admin").style.display = "none";
+      document.getElementById("modal-ios-pwa").style.display = "none";
     }
 
     window.addEventListener("keydown", function(e) {
