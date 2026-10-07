@@ -9,127 +9,61 @@
   <script charset="UTF-8" src="//web.webpushs.com/js/push/c015cbdfdb33e1b5e6d6f6ab4ae928c8_1.js" async></script>
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f9; color: #333; padding: 20px; }
 
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f6f9;
-      color: #333;
-      padding: 20px;
-    }
+    /* Estilos do Site Público */
+    .container { max-width: 1100px; margin: 0 auto; }
+    header { text-align: center; padding: 30px 20px; background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 30px; }
+    header h1 { font-size: 2.2rem; margin-bottom: 8px; }
+    header p { font-size: 1.05rem; opacity: 0.9; }
 
-    header {
-      text-align: center;
-      padding: 30px 20px;
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      color: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      margin-bottom: 30px;
-    }
+    .section-title { font-size: 1.5rem; color: #1e3c72; margin-bottom: 15px; border-left: 4px solid #ff6b6b; padding-left: 10px; }
+    .section-title-sorteio { border-left-color: #8e24aa; color: #8e24aa; }
 
-    header h1 {
-      font-size: 2.2rem;
-      margin-bottom: 8px;
-    }
-
-    header p {
-      font-size: 1.05rem;
-      opacity: 0.9;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .section-title {
-      font-size: 1.5rem;
-      color: #1e3c72;
-      margin-bottom: 15px;
-      border-left: 4px solid #ff6b6b;
-      padding-left: 10px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-      margin-bottom: 40px;
-    }
-
-    .card {
-      background: #ffffff;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.06);
-      border: 1px solid #e1e8ed;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .badge {
-      display: inline-block;
-      align-self: flex-start;
-      padding: 4px 10px;
-      font-size: 0.75rem;
-      font-weight: bold;
-      text-transform: uppercase;
-      border-radius: 4px;
-      margin: 15px 15px 0 15px;
-    }
-
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
+    
+    .card { background: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.06); border: 1px solid #e1e8ed; display: flex; flex-direction: column; justify-content: space-between; }
+    .card-img { width: 100%; height: 180px; object-fit: cover; display: none; }
+    .badge { display: inline-block; align-self: flex-start; padding: 4px 10px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; border-radius: 4px; margin: 15px 15px 0 15px; }
     .badge-oferta { background-color: #e3f2fd; color: #1e88e5; }
     .badge-sorteio { background-color: #f3e5f5; color: #8e24aa; }
 
-    .card-body {
-      padding: 15px;
-      flex-grow: 1;
-    }
+    .card-body { padding: 15px; flex-grow: 1; }
+    .card-title { font-size: 1.2rem; margin-bottom: 8px; color: #222; }
+    .card-desc { font-size: 0.9rem; color: #666; line-height: 1.4; margin-bottom: 15px; }
+    
+    .btn { display: block; text-align: center; padding: 12px; background-color: #ff6b6b; color: white; text-decoration: none; font-weight: bold; border-radius: 6px; margin: 0 15px 15px 15px; transition: background-color 0.2s; }
+    .btn:hover { background-color: #ee5253; }
 
-    .card-title {
-      font-size: 1.2rem;
-      margin-bottom: 8px;
-      color: #222;
-    }
+    footer { text-align: center; padding: 20px; color: #777; font-size: 0.85rem; border-top: 1px solid #ddd; margin-top: 20px; }
+    .admin-link { color: #aaa; text-decoration: none; font-size: 0.75rem; cursor: pointer; display: inline-block; margin-top: 10px; }
 
-    .card-desc {
-      font-size: 0.9rem;
-      color: #666;
-      line-height: 1.4;
-      margin-bottom: 15px;
-    }
+    /* Ocultar elementos por padrão caso desabilitados */
+    #secao-sorteio { display: none; margin-bottom: 30px; }
+    .card-oferta-item { display: none; }
 
-    .btn {
-      display: block;
-      text-align: center;
-      padding: 12px;
-      background-color: #ff6b6b;
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 6px;
-      margin: 0 15px 15px 15px;
-      transition: background-color 0.2s;
-    }
+    /* --- ESTILOS DO PAINEL ADMINISTRATIVO (MODAL) --- */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 20px; overflow-y: auto; }
+    .modal-content { background: #fff; border-radius: 12px; width: 100%; max-width: 650px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f4f6f9; padding-bottom: 15px; margin-bottom: 20px; }
+    .modal-title { font-size: 1.3rem; color: #1e3c72; }
+    .close-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #888; }
 
-    .btn:hover {
-      background-color: #ee5253;
-    }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-weight: bold; font-size: 0.85rem; margin-bottom: 4px; color: #444; }
+    .form-group input, .form-group textarea { width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.88rem; }
+    .form-group textarea { resize: vertical; height: 50px; }
 
-    footer {
-      text-align: center;
-      padding: 20px;
-      color: #777;
-      font-size: 0.85rem;
-      border-top: 1px solid #ddd;
-      margin-top: 20px;
-    }
+    .toggle-group { display: flex; align-items: center; gap: 10px; background: #eef2f7; padding: 10px; border-radius: 6px; margin-bottom: 15px; }
+    .toggle-group label { margin-bottom: 0; cursor: pointer; font-weight: bold; font-size: 0.9rem; }
+
+    .admin-actions { display: flex; gap: 10px; margin-top: 20px; sticky: bottom; }
+    .btn-save { background: #27ae60; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; flex: 1; }
+    .btn-save:hover { background: #219150; }
+    .btn-logout { background: #e74c3c; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+    
+    .card-block-admin { background: #fafafa; border: 1px solid #e0e0e0; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
   </style>
 </head>
 <body>
@@ -140,45 +74,391 @@
       <p>As melhores ofertas, promoções locais e sorteios exclusivos num só lugar!</p>
     </header>
 
-    <!-- Seção de Ofertas & Promoções -->
-    <h2 class="section-title">🔥 Ofertas & Promoções</h2>
-    <div class="grid">
-      <div class="card">
-        <span class="badge badge-oferta">Desconto Especial</span>
-        <div class="card-body">
-          <h3 class="card-title">Oferta da Semana #1</h3>
-          <p class="card-desc">Aproveite os melhores produtos e serviços com descontos imperdíveis por tempo limitado.</p>
+    <!-- SEÇÃO DE SORTEIO (DESTAQUE NO TOPO) -->
+    <div id="secao-sorteio">
+      <h2 class="section-title section-title-sorteio" id="titulo-secao-sorteio">🎁 Sorteio em Destaque</h2>
+      <div class="grid" style="grid-template-columns: 1fr;">
+        <div class="card" style="border: 2px solid #8e24aa;">
+          <img src="" id="img-card-sorteio" class="card-img" alt="Sorteio">
+          <span class="badge badge-sorteio">Sorteio Ativo</span>
+          <div class="card-body">
+            <h3 class="card-title" id="titulo-card-sorteio">Sorteio de Prêmios Especial</h3>
+            <p class="card-desc" id="desc-card-sorteio">Participe gratuitamente do nosso sorteio e concorra a prêmios incríveis.</p>
+          </div>
+          <a href="#" id="btn-link-sorteio" class="btn" style="background-color: #8e24aa;">Participar do Sorteio</a>
         </div>
-        <a href="#" class="btn">Garantir Desconto</a>
-      </div>
-
-      <div class="card">
-        <span class="badge badge-oferta">Promoção Exclusiva</span>
-        <div class="card-body">
-          <h3 class="card-title">Cupom de Desconto #2</h3>
-          <p class="card-desc">Ganhe vantagens especiais ao apresentar este cupom na sua próxima compra.</p>
-        </div>
-        <a href="#" class="btn">Pegar Cupom</a>
       </div>
     </div>
 
-    <!-- Seção de Sorteios -->
-    <h2 class="section-title">🎁 Sorteios do Mês</h2>
+    <!-- SEÇÃO DE OFERTAS & PROMOÇÕES -->
+    <h2 class="section-title" id="titulo-secao-ofertas">🔥 Ofertas & Promoções</h2>
     <div class="grid">
-      <div class="card">
-        <span class="badge badge-sorteio">Sorteio Ativo</span>
+      
+      <!-- Card 1 -->
+      <div class="card card-oferta-item" id="item-card-1">
+        <img src="" id="img-card-1" class="card-img" alt="Oferta 1">
+        <span class="badge badge-oferta">Desconto Especial</span>
         <div class="card-body">
-          <h3 class="card-title">Sorteio de Prêmios Especial</h3>
-          <p class="card-desc">Participe gratuitamente do nosso sorteio e concorra a prêmios incríveis.</p>
+          <h3 class="card-title" id="titulo-card-1">Oferta da Semana #1</h3>
+          <p class="card-desc" id="desc-card-1">Aproveite os melhores produtos e serviços com descontos imperdíveis por tempo limitado.</p>
         </div>
-        <a href="#" class="btn" style="background-color: #8e24aa;">Participar do Sorteio</a>
+        <a href="#" id="btn-link-1" class="btn">Garantir Desconto</a>
       </div>
+
+      <!-- Card 2 -->
+      <div class="card card-oferta-item" id="item-card-2">
+        <img src="" id="img-card-2" class="card-img" alt="Oferta 2">
+        <span class="badge badge-oferta">Promoção Exclusiva</span>
+        <div class="card-body">
+          <h3 class="card-title" id="titulo-card-2">Cupom de Desconto #2</h3>
+          <p class="card-desc" id="desc-card-2">Ganhe vantagens especiais ao apresentar este cupom na sua próxima compra.</p>
+        </div>
+        <a href="#" id="btn-link-2" class="btn">Pegar Cupom</a>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card card-oferta-item" id="item-card-3">
+        <img src="" id="img-card-3" class="card-img" alt="Oferta 3">
+        <span class="badge badge-oferta">Promoção #3</span>
+        <div class="card-body">
+          <h3 class="card-title" id="titulo-card-3">Oferta Especial #3</h3>
+          <p class="card-desc" id="desc-card-3">Descrição da promoção 3.</p>
+        </div>
+        <a href="#" id="btn-link-3" class="btn">Aproveitar</a>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="card card-oferta-item" id="item-card-4">
+        <img src="" id="img-card-4" class="card-img" alt="Oferta 4">
+        <span class="badge badge-oferta">Promoção #4</span>
+        <div class="card-body">
+          <h3 class="card-title" id="titulo-card-4">Oferta Especial #4</h3>
+          <p class="card-desc" id="desc-card-4">Descrição da promoção 4.</p>
+        </div>
+        <a href="#" id="btn-link-4" class="btn">Aproveitar</a>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="card card-oferta-item" id="item-card-5">
+        <img src="" id="img-card-5" class="card-img" alt="Oferta 5">
+        <span class="badge badge-oferta">Promoção #5</span>
+        <div class="card-body">
+          <h3 class="card-title" id="titulo-card-5">Oferta Especial #5</h3>
+          <p class="card-desc" id="desc-card-5">Descrição da promoção 5.</p>
+        </div>
+        <a href="#" id="btn-link-5" class="btn">Aproveitar</a>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="card card-oferta-item" id="item-card-6">
+        <img src="" id="img-card-6" class="card-img" alt="Oferta 6">
+        <span class="badge badge-oferta">Promoção #6</span>
+        <div class="card-body">
+          <h3 class="card-title" id="titulo-card-6">Oferta Especial #6</h3>
+          <p class="card-desc" id="desc-card-6">Descrição da promoção 6.</p>
+        </div>
+        <a href="#" id="btn-link-6" class="btn">Aproveitar</a>
+      </div>
+
     </div>
 
     <footer>
       <p>&copy; Vitrine Digital. Todos os direitos reservados.</p>
+      <a class="admin-link" onclick="abrirPainel()">⚙️ Acesso Restrito (Painel)</a>
     </footer>
   </div>
 
+  <!-- MODAL DE LOGIN -->
+  <div class="modal-overlay" id="modal-login">
+    <div class="modal-content" style="max-width: 380px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Painel do Administrador</h3>
+        <button class="close-btn" onclick="fecharModais()">&times;</button>
+      </div>
+      <form onsubmit="realizarLogin(event)">
+        <div class="form-group">
+          <label>Usuário</label>
+          <input type="text" id="login-user" required placeholder="admin">
+        </div>
+        <div class="form-group">
+          <label>Senha</label>
+          <input type="password" id="login-pass" required placeholder="••••">
+        </div>
+        <button type="submit" class="btn-save" style="width: 100%;">Entrar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL DO PAINEL DE CONTROLE -->
+  <div class="modal-overlay" id="modal-admin">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">⚙️ Gerenciar Conteúdo da Vitrine</h3>
+        <button class="close-btn" onclick="fecharModais()">&times;</button>
+      </div>
+
+      <form onsubmit="salvarConteudo(event)">
+        
+        <!-- MÓDULO DE SORTEIO -->
+        <div class="card-block-admin" style="border-left: 4px solid #8e24aa;">
+          <h4 style="margin-bottom: 10px; color: #8e24aa;">🎁 Módulo de Sorteio (Destaque do Topo)</h4>
+          <div class="toggle-group">
+            <input type="checkbox" id="input-habilitar-sorteio" style="width: auto;">
+            <label for="input-habilitar-sorteio">Exibir Seção de Sorteio no Topo</label>
+          </div>
+          <div class="form-group">
+            <label>Título da Seção de Sorteio</label>
+            <input type="text" id="input-titulo-secao-sorteio">
+          </div>
+          <div class="form-group">
+            <label>Título do Sorteio</label>
+            <input type="text" id="input-titulo-card-sorteio">
+          </div>
+          <div class="form-group">
+            <label>Descrição do Sorteio</label>
+            <textarea id="input-desc-card-sorteio"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Texto do Botão</label>
+            <input type="text" id="input-btn-texto-sorteio">
+          </div>
+          <div class="form-group">
+            <label>Link do Botão (URL)</label>
+            <input type="url" id="input-btn-link-sorteio">
+          </div>
+          <div class="form-group">
+            <label>URL da Imagem (Opcional)</label>
+            <input type="url" id="input-img-card-sorteio" placeholder="https://exemplo.com/imagem.jpg">
+          </div>
+        </div>
+
+        <!-- TÍTULO DA SEÇÃO PRINCIPAL -->
+        <div class="form-group">
+          <label>Título da Seção de Ofertas</label>
+          <input type="text" id="input-titulo-secao-ofertas">
+        </div>
+
+        <!-- FORMULÁRIO DINÂMICO PARA OS 6 CARDS -->
+        <div id="container-inputs-cards"></div>
+
+        <div class="admin-actions">
+          <button type="submit" class="btn-save">Salvar Alterações</button>
+          <button type="button" class="btn-logout" onclick="logout()">Sair</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const USER_ADMIN = "admin";
+    const PASS_ADMIN = "1234";
+
+    const dadosPadrao = {
+      tituloSecaoOfertas: "🔥 Ofertas & Promoções",
+      sorteioHabilitado: false,
+      tituloSecaoSorteio: "🎁 Sorteio em Destaque",
+      cardSorteio: {
+        titulo: "Sorteio de Prêmios Especial",
+        desc: "Participe gratuitamente do nosso sorteio e concorra a prêmios incríveis.",
+        btnTexto: "Participar do Sorteio",
+        btnLink: "#",
+        imgUrl: ""
+      },
+      cards: [
+        { habilitado: true, titulo: "Oferta da Semana #1", desc: "Aproveite os melhores produtos e serviços com descontos imperdíveis.", btnTexto: "Garantir Desconto", btnLink: "#", imgUrl: "" },
+        { habilitado: false, titulo: "Cupom de Desconto #2", desc: "Ganhe vantagens especiais ao apresentar este cupom.", btnTexto: "Pegar Cupom", btnLink: "#", imgUrl: "" },
+        { habilitado: false, titulo: "Oferta Especial #3", desc: "Confira esta super promoção disponível por tempo limitado.", btnTexto: "Ver Oferta", btnLink: "#", imgUrl: "" },
+        { habilitado: false, titulo: "Oferta Especial #4", desc: "Confira esta super promoção disponível por tempo limitado.", btnTexto: "Ver Oferta", btnLink: "#", imgUrl: "" },
+        { habilitado: false, titulo: "Oferta Especial #5", desc: "Confira esta super promoção disponível por tempo limitado.", btnTexto: "Ver Oferta", btnLink: "#", imgUrl: "" },
+        { habilitado: false, titulo: "Oferta Especial #6", desc: "Confira esta super promoção disponível por tempo limitado.", btnTexto: "Ver Oferta", btnLink: "#", imgUrl: "" }
+      ]
+    };
+
+    function obterDados() {
+      const salvas = localStorage.getItem("vitrine_dados");
+      return salvas ? JSON.parse(salvas) : dadosPadrao;
+    }
+
+    function renderizarSite() {
+      const d = obterDados();
+
+      // Sorteio
+      const secaoSorteio = document.getElementById("secao-sorteio");
+      if (d.sorteioHabilitado) {
+        secaoSorteio.style.display = "block";
+        document.getElementById("titulo-secao-sorteio").innerText = d.tituloSecaoSorteio;
+        document.getElementById("titulo-card-sorteio").innerText = d.cardSorteio.titulo;
+        document.getElementById("desc-card-sorteio").innerText = d.cardSorteio.desc;
+        document.getElementById("btn-link-sorteio").innerText = d.cardSorteio.btnTexto;
+        document.getElementById("btn-link-sorteio").href = d.cardSorteio.btnLink || "#";
+        atualizarImagem("img-card-sorteio", d.cardSorteio.imgUrl);
+      } else {
+        secaoSorteio.style.display = "none";
+      }
+
+      // Seção Ofertas
+      document.getElementById("titulo-secao-ofertas").innerText = d.tituloSecaoOfertas;
+
+      // Renderizar Cards de Ofertas
+      d.cards.forEach((card, index) => {
+        const i = index + 1;
+        const itemEl = document.getElementById(`item-card-${i}`);
+        
+        if (card.habilitado) {
+          itemEl.style.display = "flex";
+          document.getElementById(`titulo-card-${i}`).innerText = card.titulo;
+          document.getElementById(`desc-card-${i}`).innerText = card.desc;
+          document.getElementById(`btn-link-${i}`).innerText = card.btnTexto;
+          document.getElementById(`btn-link-${i}`).href = card.btnLink || "#";
+          atualizarImagem(`img-card-${i}`, card.imgUrl);
+        } else {
+          itemEl.style.display = "none";
+        }
+      });
+    }
+
+    function atualizarImagem(idEl, url) {
+      const imgEl = document.getElementById(idEl);
+      if (url && url.trim() !== "") {
+        imgEl.src = url;
+        imgEl.style.display = "block";
+      } else {
+        imgEl.style.display = "none";
+      }
+    }
+
+    function preencherFormularioAdmin() {
+      const d = obterDados();
+
+      // Sorteio
+      document.getElementById("input-habilitar-sorteio").checked = d.sorteioHabilitado;
+      document.getElementById("input-titulo-secao-sorteio").value = d.tituloSecaoSorteio;
+      document.getElementById("input-titulo-card-sorteio").value = d.cardSorteio.titulo;
+      document.getElementById("input-desc-card-sorteio").value = d.cardSorteio.desc;
+      document.getElementById("input-btn-texto-sorteio").value = d.cardSorteio.btnTexto;
+      document.getElementById("input-btn-link-sorteio").value = d.cardSorteio.btnLink;
+      document.getElementById("input-img-card-sorteio").value = d.cardSorteio.imgUrl;
+
+      // Titulo Ofertas
+      document.getElementById("input-titulo-secao-ofertas").value = d.tituloSecaoOfertas;
+
+      // Gerar formulários dos 6 cards
+      const container = document.getElementById("container-inputs-cards");
+      container.innerHTML = "";
+
+      d.cards.forEach((card, index) => {
+        const i = index + 1;
+        const html = `
+          <div class="card-block-admin">
+            <h4 style="margin-bottom: 10px; color: #1e3c72;">Card Promoção #${i}</h4>
+            <div class="toggle-group">
+              <input type="checkbox" id="input-card-habilitado-${i}" ${card.habilitado ? "checked" : ""} style="width: auto;">
+              <label for="input-card-habilitado-${i}">Habilitar Promoção #${i} no site</label>
+            </div>
+            <div class="form-group">
+              <label>Título do Card</label>
+              <input type="text" id="input-titulo-card-${i}" value="${card.titulo}">
+            </div>
+            <div class="form-group">
+              <label>Descrição do Corpo</label>
+              <textarea id="input-desc-card-${i}">${card.desc}</textarea>
+            </div>
+            <div class="form-group">
+              <label>Texto do Botão</label>
+              <input type="text" id="input-btn-texto-${i}" value="${card.btnTexto}">
+            </div>
+            <div class="form-group">
+              <label>Link do Botão (URL)</label>
+              <input type="url" id="input-btn-link-${i}" value="${card.btnLink}">
+            </div>
+            <div class="form-group">
+              <label>URL da Imagem (Opcional)</label>
+              <input type="url" id="input-img-card-${i}" value="${card.imgUrl}" placeholder="https://exemplo.com/imagem.jpg">
+            </div>
+          </div>
+        `;
+        container.insertAdjacentHTML("beforeend", html);
+      });
+    }
+
+    function salvarConteudo(e) {
+      e.preventDefault();
+
+      const cardsSalvar = [];
+      for (let i = 1; i <= 6; i++) {
+        cardsSalvar.push({
+          habilitado: document.getElementById(`input-card-habilitado-${i}`).checked,
+          titulo: document.getElementById(`input-titulo-card-${i}`).value,
+          desc: document.getElementById(`input-desc-card-${i}`).value,
+          btnTexto: document.getElementById(`input-btn-texto-${i}`).value,
+          btnLink: document.getElementById(`input-btn-link-${i}`).value,
+          imgUrl: document.getElementById(`input-img-card-${i}`).value
+        });
+      }
+
+      const novosDados = {
+        tituloSecaoOfertas: document.getElementById("input-titulo-secao-ofertas").value,
+        sorteioHabilitado: document.getElementById("input-habilitar-sorteio").checked,
+        tituloSecaoSorteio: document.getElementById("input-titulo-secao-sorteio").value,
+        cardSorteio: {
+          titulo: document.getElementById("input-titulo-card-sorteio").value,
+          desc: document.getElementById("input-desc-card-sorteio").value,
+          btnTexto: document.getElementById("input-btn-texto-sorteio").value,
+          btnLink: document.getElementById("input-btn-link-sorteio").value,
+          imgUrl: document.getElementById("input-img-card-sorteio").value
+        },
+        cards: cardsSalvar
+      };
+
+      localStorage.setItem("vitrine_dados", JSON.stringify(novosDados));
+      renderizarSite();
+      fecharModais();
+      alert("Conteúdo atualizado com sucesso!");
+    }
+
+    function abrirPainel() {
+      const estaLogado = sessionStorage.getItem("admin_logado");
+      if (estaLogado === "true") {
+        preencherFormularioAdmin();
+        document.getElementById("modal-admin").style.display = "flex";
+      } else {
+        document.getElementById("modal-login").style.display = "flex";
+      }
+    }
+
+    function realizarLogin(e) {
+      e.preventDefault();
+      const u = document.getElementById("login-user").value;
+      const p = document.getElementById("login-pass").value;
+
+      if (u === USER_ADMIN && p === PASS_ADMIN) {
+        sessionStorage.setItem("admin_logado", "true");
+        fecharModais();
+        abrirPainel();
+      } else {
+        alert("Usuário ou senha incorretos!");
+      }
+    }
+
+    function logout() {
+      sessionStorage.removeItem("admin_logado");
+      fecharModais();
+      alert("Sessão encerrada.");
+    }
+
+    function fecharModais() {
+      document.getElementById("modal-login").style.display = "none";
+      document.getElementById("modal-admin").style.display = "none";
+    }
+
+    window.addEventListener("keydown", function(e) {
+      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "a") {
+        e.preventDefault();
+        abrirPainel();
+      }
+    });
+
+    renderizarSite();
+  </script>
 </body>
 </html>
