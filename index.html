@@ -243,7 +243,7 @@
       <form onsubmit="realizarLogin(event)">
         <div class="form-group">
           <label>Usuário</label>
-          <input type="text" id="login-user" required placeholder="admin">
+          <input type="text" id="login-user" required placeholder="Digite o usuário">
         </div>
         <div class="form-group">
           <label>Senha</label>
@@ -320,14 +320,23 @@
   </div>
 
   <script>
-    const USER_ADMIN = "admin";
-    const PASS_ADMIN = "1234";
+    // CREDENCIAIS EM HASH SHA-256 (INVISÍVEIS EM TEXTO PLANO)
+    const USER_HASH = "fa8b919d7010260feaa85e50529d2802dcdcc0ff34a341b5bd2ecfbc5fa2074e";
+    const PASS_HASH = "f9db870b2aeedc0c66dbbc5c30df272cdac2eb816dd7bb354c5ee91c5cbe8341";
 
     const BIN_ID = "6ac6720bac6210605a1cecc1";
     const MASTER_KEY = "$2a$10$yE4MooY0/kQFNW8E9VuhyuLMRpNVkGUVzMkR/mWLDRXNdUeP/IsP6";
 
     let dadosCache = null;
     let deferredPrompt = null;
+
+    // Função auxiliar para gerar hash SHA-256 no navegador
+    async function gerarSHA256(texto) {
+      const buffer = new TextEncoder().encode(texto);
+      const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+    }
 
     window.addEventListener("beforeinstallprompt", (e) => {
       e.preventDefault();
@@ -438,7 +447,6 @@
       }
     }
 
-    // CONVERSOR E COMPRESSOR DE IMAGEM VIA CANVAS JS
     function converterEComprimirImagem(input, previewId, hiddenInputId) {
       const file = input.files[0];
       if (file) {
@@ -450,7 +458,6 @@
             const canvas = document.createElement("canvas");
             const ctx = canvas.getContext("2d");
 
-            // Redimensiona mantendo resolução otimizada (Max 800px de largura)
             const maxLargura = 800;
             let largura = img.width;
             let altura = img.height;
@@ -464,7 +471,6 @@
             canvas.height = altura;
             ctx.drawImage(img, 0, 0, largura, altura);
 
-            // Comprime a imagem para JPEG com qualidade de 70% (fica em ~100kb)
             const imagemComprimida = canvas.toDataURL("image/jpeg", 0.7);
 
             document.getElementById(hiddenInputId).value = imagemComprimida;
@@ -609,12 +615,15 @@
       }
     }
 
-    function realizarLogin(e) {
+    async function realizarLogin(e) {
       e.preventDefault();
       const u = document.getElementById("login-user").value;
       const p = document.getElementById("login-pass").value;
 
-      if (u === USER_ADMIN && p === PASS_ADMIN) {
+      const userHashDigitado = await gerarSHA256(u);
+      const passHashDigitado = await gerarSHA256(p);
+
+      if (userHashDigitado === USER_HASH && passHashDigitado === PASS_HASH) {
         sessionStorage.setItem("admin_logado", "true");
         fecharModais();
         abrirPainel();
