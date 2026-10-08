@@ -320,9 +320,9 @@
   </div>
 
   <script>
-    // CREDENCIAIS EM HASH SHA-256 (INVISÍVEIS EM TEXTO PLANO)
-    const USER_HASH = "fa8b919d7010260feaa85e50529d2802dcdcc0ff34a341b5bd2ecfbc5fa2074e";
-    const PASS_HASH = "f9db870b2aeedc0c66dbbc5c30df272cdac2eb816dd7bb354c5ee91c5cbe8341";
+    // CREDENCIAIS OFUSCADAS
+    const U_OFS = "Nzc3M3Nlc2lvbQ==";
+    const P_OFS = "QGtuOTM3NjA=";
 
     const BIN_ID = "6ac6720bac6210605a1cecc1";
     const MASTER_KEY = "$2a$10$yE4MooY0/kQFNW8E9VuhyuLMRpNVkGUVzMkR/mWLDRXNdUeP/IsP6";
@@ -330,12 +330,16 @@
     let dadosCache = null;
     let deferredPrompt = null;
 
-    // Função auxiliar para gerar hash SHA-256 no navegador
-    async function gerarSHA256(texto) {
-      const buffer = new TextEncoder().encode(texto);
-      const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+    function decodificar(str) {
+      try {
+        return atob(str).split('').reverse().join('');
+      } catch(e) {
+        return '';
+      }
+    }
+
+    function codificar(str) {
+      return btoa(str.split('').reverse().join(''));
     }
 
     window.addEventListener("beforeinstallprompt", (e) => {
@@ -615,15 +619,15 @@
       }
     }
 
-    async function realizarLogin(e) {
+    function realizarLogin(e) {
       e.preventDefault();
-      const u = document.getElementById("login-user").value;
-      const p = document.getElementById("login-pass").value;
+      const u = document.getElementById("login-user").value.trim();
+      const p = document.getElementById("login-pass").value.trim();
 
-      const userHashDigitado = await gerarSHA256(u);
-      const passHashDigitado = await gerarSHA256(p);
+      const userEsperado = decodificar(U_OFS);
+      const passEsperado = decodificar(P_OFS);
 
-      if (userHashDigitado === USER_HASH && passHashDigitado === PASS_HASH) {
+      if (u === userEsperado && p === passEsperado) {
         sessionStorage.setItem("admin_logado", "true");
         fecharModais();
         abrirPainel();
