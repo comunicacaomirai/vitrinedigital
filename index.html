@@ -243,7 +243,7 @@
       <form onsubmit="realizarLogin(event)">
         <div class="form-group">
           <label>Usuário</label>
-          <input type="text" id="login-user" required placeholder="Digite o usuário">
+          <input type="text" id="login-user" required placeholder="Digite o usuário" autocomplete="off" autocapitalize="none">
         </div>
         <div class="form-group">
           <label>Senha</label>
@@ -320,27 +320,15 @@
   </div>
 
   <script>
-    // CREDENCIAIS OFUSCADAS
-    const U_OFS = "Nzc3M3Nlc2lvbQ==";
-    const P_OFS = "QGtuOTM3NjA=";
+    // CREDENCIAIS
+    const USER_CORRETO = "moises3377";
+    const PASS_CORRETO = "060399Mk@";
 
     const BIN_ID = "6ac6720bac6210605a1cecc1";
     const MASTER_KEY = "$2a$10$yE4MooY0/kQFNW8E9VuhyuLMRpNVkGUVzMkR/mWLDRXNdUeP/IsP6";
 
     let dadosCache = null;
     let deferredPrompt = null;
-
-    function decodificar(str) {
-      try {
-        return atob(str).split('').reverse().join('');
-      } catch(e) {
-        return '';
-      }
-    }
-
-    function codificar(str) {
-      return btoa(str.split('').reverse().join(''));
-    }
 
     window.addEventListener("beforeinstallprompt", (e) => {
       e.preventDefault();
@@ -624,10 +612,7 @@
       const u = document.getElementById("login-user").value.trim();
       const p = document.getElementById("login-pass").value.trim();
 
-      const userEsperado = decodificar(U_OFS);
-      const passEsperado = decodificar(P_OFS);
-
-      if (u === userEsperado && p === passEsperado) {
+      if (u === USER_CORRETO && p === PASS_CORRETO) {
         sessionStorage.setItem("admin_logado", "true");
         fecharModais();
         abrirPainel();
