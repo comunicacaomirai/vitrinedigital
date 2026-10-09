@@ -63,19 +63,19 @@
     .modal-lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 15px; cursor: zoom-out; }
     .modal-lightbox img { max-width: 95%; max-height: 90vh; border-radius: 8px; box-shadow: 0 5px 25px rgba(0,0,0,0.5); object-fit: contain; }
 
-    /* MODAIS ADMINISTRATIVOS */
+    /* MODAIS ADMINISTRATIVOS E DESTAQUE DOS BLOCOS */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 20px; overflow-y: auto; }
-    .modal-content { background: #fff; border-radius: 12px; width: 100%; max-width: 650px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f4f6f9; padding-bottom: 15px; margin-bottom: 20px; }
+    .modal-content { background: #f8fafc; border-radius: 12px; width: 100%; max-width: 650px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 20px; }
     .modal-title { font-size: 1.3rem; color: #1e3c72; }
     .close-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #888; }
 
     .form-group { margin-bottom: 12px; }
     .form-group label { display: block; font-weight: bold; font-size: 0.85rem; margin-bottom: 4px; color: #444; }
-    .form-group input, .form-group textarea { width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.88rem; }
+    .form-group input, .form-group textarea { width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.88rem; background-color: #fff; }
     .form-group textarea { resize: vertical; height: 50px; }
 
-    .toggle-group { display: flex; align-items: center; gap: 10px; background: #eef2f7; padding: 10px; border-radius: 6px; margin-bottom: 15px; }
+    .toggle-group { display: flex; align-items: center; gap: 10px; background: #e2e8f0; padding: 10px; border-radius: 6px; margin-bottom: 15px; }
     .toggle-group label { margin-bottom: 0; cursor: pointer; font-weight: bold; font-size: 0.9rem; }
 
     .admin-actions { display: flex; gap: 10px; margin-top: 20px; }
@@ -83,8 +83,12 @@
     .btn-save:hover { background: #219150; }
     .btn-logout { background: #e74c3c; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; }
     
-    .card-block-admin { background: #fafafa; border: 1px solid #e0e0e0; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
-    .preview-img-admin { max-width: 100%; height: 100px; object-fit: cover; border-radius: 4px; margin-top: 8px; display: none; }
+    /* BLOCOS DE PROMOÇÃO DESTAQUE NO PAINEL */
+    .card-block-admin { background: #ffffff; border: 1px solid #cbd5e1; border-left: 5px solid #1e3c72; padding: 16px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+    .preview-container-admin { margin-top: 8px; display: none; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .preview-img-admin { max-width: 120px; max-height: 100px; object-fit: cover; border-radius: 6px; border: 1px solid #ccc; }
+    .btn-delete-img { background-color: #ff4d4d; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 0.78rem; font-weight: bold; cursor: pointer; transition: background-color 0.2s; }
+    .btn-delete-img:hover { background-color: #e60000; }
   </style>
 </head>
 <body>
@@ -262,7 +266,7 @@
       </div>
 
       <form onsubmit="salvarConteudo(event)">
-        <div class="card-block-admin" style="border-left: 4px solid #25d366;">
+        <div class="card-block-admin" style="border-left-color: #25d366;">
           <h4 style="margin-bottom: 10px; color: #25d366;">💬 Configuração do Botão Comunidade</h4>
           <div class="form-group">
             <label>Link do Botão Comunidade</label>
@@ -270,7 +274,7 @@
           </div>
         </div>
 
-        <div class="card-block-admin" style="border-left: 4px solid #8e24aa;">
+        <div class="card-block-admin" style="border-left-color: #8e24aa;">
           <h4 style="margin-bottom: 10px; color: #8e24aa;">🎁 Módulo de Sorteio (Destaque do Topo)</h4>
           <div class="toggle-group">
             <input type="checkbox" id="input-habilitar-sorteio" style="width: auto;">
@@ -298,9 +302,12 @@
           </div>
           <div class="form-group">
             <label>Upload de Imagem (Proporção 4:5 - Comprimida auto)</label>
-            <input type="file" accept="image/*" onchange="converterEComprimirImagem(this, 'preview-img-sorteio', 'input-img-card-sorteio')">
+            <input type="file" id="file-input-sorteio" accept="image/*" onchange="converterEComprimirImagem(this, 'preview-img-sorteio', 'input-img-card-sorteio', 'wrapper-preview-sorteio')">
             <input type="hidden" id="input-img-card-sorteio">
-            <img id="preview-img-sorteio" class="preview-img-admin" alt="Preview Sorteio">
+            <div id="wrapper-preview-sorteio" class="preview-container-admin">
+              <img id="preview-img-sorteio" class="preview-img-admin" alt="Preview Sorteio">
+              <button type="button" class="btn-delete-img" onclick="removerImagem('input-img-card-sorteio', 'preview-img-sorteio', 'wrapper-preview-sorteio', 'file-input-sorteio')">❌ Excluir Imagem</button>
+            </div>
           </div>
         </div>
 
@@ -320,7 +327,6 @@
   </div>
 
   <script>
-    // CREDENCIAIS
     const USER_CORRETO = "moises3377";
     const PASS_CORRETO = "060399Mk@";
 
@@ -439,7 +445,7 @@
       }
     }
 
-    function converterEComprimirImagem(input, previewId, hiddenInputId) {
+    function converterEComprimirImagem(input, previewId, hiddenInputId, wrapperId) {
       const file = input.files[0];
       if (file) {
         const reader = new FileReader();
@@ -468,10 +474,19 @@
             document.getElementById(hiddenInputId).value = imagemComprimida;
             const preview = document.getElementById(previewId);
             preview.src = imagemComprimida;
-            preview.style.display = "block";
+            document.getElementById(wrapperId).style.display = "flex";
           };
         };
         reader.readAsDataURL(file);
+      }
+    }
+
+    function removerImagem(hiddenInputId, previewId, wrapperId, fileInputId) {
+      document.getElementById(hiddenInputId).value = "";
+      document.getElementById(previewId).src = "";
+      document.getElementById(wrapperId).style.display = "none";
+      if (fileInputId && document.getElementById(fileInputId)) {
+        document.getElementById(fileInputId).value = "";
       }
     }
 
@@ -492,7 +507,9 @@
       if (d.cardSorteio.imgUrl) {
         const prevSorteio = document.getElementById("preview-img-sorteio");
         prevSorteio.src = d.cardSorteio.imgUrl;
-        prevSorteio.style.display = "block";
+        document.getElementById("wrapper-preview-sorteio").style.display = "flex";
+      } else {
+        document.getElementById("wrapper-preview-sorteio").style.display = "none";
       }
 
       document.getElementById("input-titulo-secao-ofertas").value = d.tituloSecaoOfertas;
@@ -504,7 +521,7 @@
         const i = index + 1;
         const html = `
           <div class="card-block-admin">
-            <h4 style="margin-bottom: 10px; color: #1e3c72;">Card Promoção #${i}</h4>
+            <h4 style="margin-bottom: 12px; color: #1e3c72; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px;">📌 Card Promoção #${i}</h4>
             <div class="toggle-group">
               <input type="checkbox" id="input-card-habilitado-${i}" ${card.habilitado ? "checked" : ""} style="width: auto;">
               <label for="input-card-habilitado-${i}">Habilitar Promoção #${i} no site</label>
@@ -527,9 +544,12 @@
             </div>
             <div class="form-group">
               <label>Upload de Imagem (Proporção 4:5 - Comprimida auto)</label>
-              <input type="file" accept="image/*" onchange="converterEComprimirImagem(this, 'preview-img-${i}', 'input-img-card-${i}')">
+              <input type="file" id="file-input-${i}" accept="image/*" onchange="converterEComprimirImagem(this, 'preview-img-${i}', 'input-img-card-${i}', 'wrapper-preview-${i}')">
               <input type="hidden" id="input-img-card-${i}" value="${card.imgUrl}">
-              <img id="preview-img-${i}" class="preview-img-admin" src="${card.imgUrl}" style="display: ${card.imgUrl ? 'block' : 'none'};">
+              <div id="wrapper-preview-${i}" class="preview-container-admin" style="display: ${card.imgUrl ? 'flex' : 'none'};">
+                <img id="preview-img-${i}" class="preview-img-admin" src="${card.imgUrl}">
+                <button type="button" class="btn-delete-img" onclick="removerImagem('input-img-card-${i}', 'preview-img-${i}', 'wrapper-preview-${i}', 'file-input-${i}')">❌ Excluir Imagem</button>
+              </div>
             </div>
           </div>
         `;
