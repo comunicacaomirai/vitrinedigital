@@ -65,30 +65,33 @@
 
     /* MODAIS ADMINISTRATIVOS E DESTAQUE DOS BLOCOS */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 20px; overflow-y: auto; }
-    .modal-content { background: #f8fafc; border-radius: 12px; width: 100%; max-width: 650px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 20px; }
-    .modal-title { font-size: 1.3rem; color: #1e3c72; }
+    .modal-content { background: #eef2f7; border-radius: 12px; width: 100%; max-width: 680px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.25); max-height: 90vh; overflow-y: auto; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #cbd5e1; padding-bottom: 15px; margin-bottom: 25px; }
+    .modal-title { font-size: 1.35rem; color: #1e3c72; font-weight: bold; }
     .close-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #888; }
 
-    .form-group { margin-bottom: 12px; }
-    .form-group label { display: block; font-weight: bold; font-size: 0.85rem; margin-bottom: 4px; color: #444; }
-    .form-group input, .form-group textarea { width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.88rem; background-color: #fff; }
-    .form-group textarea { resize: vertical; height: 50px; }
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-weight: bold; font-size: 0.85rem; margin-bottom: 5px; color: #334155; }
+    .form-group input, .form-group textarea { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem; background-color: #fff; transition: border-color 0.2s; }
+    .form-group input:focus, .form-group textarea:focus { border-color: #1e3c72; outline: none; }
+    .form-group textarea { resize: vertical; height: 55px; }
 
-    .toggle-group { display: flex; align-items: center; gap: 10px; background: #e2e8f0; padding: 10px; border-radius: 6px; margin-bottom: 15px; }
-    .toggle-group label { margin-bottom: 0; cursor: pointer; font-weight: bold; font-size: 0.9rem; }
+    .toggle-group { display: flex; align-items: center; gap: 10px; background: #f1f5f9; padding: 10px 12px; border-radius: 6px; margin-bottom: 15px; border: 1px solid #e2e8f0; }
+    .toggle-group label { margin-bottom: 0; cursor: pointer; font-weight: bold; font-size: 0.9rem; color: #1e293b; }
 
-    .admin-actions { display: flex; gap: 10px; margin-top: 20px; }
-    .btn-save { background: #27ae60; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; flex: 1; }
+    .admin-actions { display: flex; gap: 10px; margin-top: 25px; }
+    .btn-save { background: #27ae60; color: white; border: none; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; flex: 1; box-shadow: 0 4px 6px rgba(39, 174, 96, 0.2); }
     .btn-save:hover { background: #219150; }
-    .btn-logout { background: #e74c3c; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+    .btn-logout { background: #e74c3c; color: white; border: none; padding: 14px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; }
     
     /* BLOCOS DE PROMOÇÃO DESTAQUE NO PAINEL */
-    .card-block-admin { background: #ffffff; border: 1px solid #cbd5e1; border-left: 5px solid #1e3c72; padding: 16px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
-    .preview-container-admin { margin-top: 8px; display: none; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .preview-img-admin { max-width: 120px; max-height: 100px; object-fit: cover; border-radius: 6px; border: 1px solid #ccc; }
-    .btn-delete-img { background-color: #ff4d4d; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 0.78rem; font-weight: bold; cursor: pointer; transition: background-color 0.2s; }
-    .btn-delete-img:hover { background-color: #e60000; }
+    .card-block-admin { background: #ffffff; border: 2px solid #cbd5e1; border-left: 6px solid #1e3c72; padding: 18px; border-radius: 10px; margin-bottom: 22px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); }
+    .card-block-admin h4 { font-size: 1.05rem; margin-bottom: 14px; color: #1e3c72; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    
+    .preview-container-admin { margin-top: 10px; display: none; align-items: center; gap: 12px; flex-wrap: wrap; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px dashed #cbd5e1; }
+    .preview-img-admin { max-width: 130px; max-height: 100px; object-fit: cover; border-radius: 6px; border: 1px solid #cbd5e1; }
+    .btn-delete-img { background-color: #ef4444; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; cursor: pointer; transition: background-color 0.2s; }
+    .btn-delete-img:hover { background-color: #dc2626; }
   </style>
 </head>
 <body>
@@ -267,7 +270,7 @@
 
       <form onsubmit="salvarConteudo(event)">
         <div class="card-block-admin" style="border-left-color: #25d366;">
-          <h4 style="margin-bottom: 10px; color: #25d366;">💬 Configuração do Botão Comunidade</h4>
+          <h4 style="color: #166534;">💬 Configuração do Botão Comunidade</h4>
           <div class="form-group">
             <label>Link do Botão Comunidade</label>
             <input type="text" id="input-btn-comunidade-link" placeholder="https://chat.whatsapp.com/...">
@@ -275,7 +278,7 @@
         </div>
 
         <div class="card-block-admin" style="border-left-color: #8e24aa;">
-          <h4 style="margin-bottom: 10px; color: #8e24aa;">🎁 Módulo de Sorteio (Destaque do Topo)</h4>
+          <h4 style="color: #6b21a8;">🎁 Módulo de Sorteio (Destaque do Topo)</h4>
           <div class="toggle-group">
             <input type="checkbox" id="input-habilitar-sorteio" style="width: auto;">
             <label for="input-habilitar-sorteio">Exibir Seção de Sorteio no Topo</label>
@@ -311,9 +314,9 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label>Título da Seção de Ofertas</label>
-          <input type="text" id="input-titulo-secao-ofertas">
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label style="font-size: 1rem; color: #1e3c72;">Título da Seção de Ofertas</label>
+          <input type="text" id="input-titulo-secao-ofertas" style="font-weight: bold;">
         </div>
 
         <div id="container-inputs-cards"></div>
@@ -521,7 +524,7 @@
         const i = index + 1;
         const html = `
           <div class="card-block-admin">
-            <h4 style="margin-bottom: 12px; color: #1e3c72; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px;">📌 Card Promoção #${i}</h4>
+            <h4>📌 Card Promoção #${i}</h4>
             <div class="toggle-group">
               <input type="checkbox" id="input-card-habilitado-${i}" ${card.habilitado ? "checked" : ""} style="width: auto;">
               <label for="input-card-habilitado-${i}">Habilitar Promoção #${i} no site</label>
