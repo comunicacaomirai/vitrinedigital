@@ -675,5 +675,18 @@
 
     renderizarSite();
   </script>
+
+  <script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const origem = urlParams.get('origem');
+   
+  if (origem) {
+    gtag('event', 'origem_banner', {
+      origem: origem
+    });
+   
+    console.log("Origem detectada:", origem);
+  }
+  </script>
 </body>
 </html>
