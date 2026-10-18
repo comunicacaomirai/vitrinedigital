@@ -5,6 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vitrine Digital - Ofertas, Promoções e Sorteios</title>
 
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XVYG7QR3ZM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-XVYG7QR3ZM');
+  </script>
+
   <!-- Tags PWA para instalação na tela inicial (Android e iOS) -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -524,147 +534,4 @@
         const i = index + 1;
         const html = `
           <div class="card-block-admin">
-            <h4>📌 Card Promoção #${i}</h4>
-            <div class="toggle-group">
-              <input type="checkbox" id="input-card-habilitado-${i}" ${card.habilitado ? "checked" : ""} style="width: auto;">
-              <label for="input-card-habilitado-${i}">Habilitar Promoção #${i} no site</label>
-            </div>
-            <div class="form-group">
-              <label>Título do Card</label>
-              <input type="text" id="input-titulo-card-${i}" value="${card.titulo}">
-            </div>
-            <div class="form-group">
-              <label>Descrição do Corpo</label>
-              <textarea id="input-desc-card-${i}">${card.desc}</textarea>
-            </div>
-            <div class="form-group">
-              <label>Texto do Botão</label>
-              <input type="text" id="input-btn-texto-${i}" value="${card.btnTexto}">
-            </div>
-            <div class="form-group">
-              <label>Link do Botão</label>
-              <input type="text" id="input-btn-link-${i}" value="${card.btnLink}" placeholder="https://exemplo.com">
-            </div>
-            <div class="form-group">
-              <label>Upload de Imagem (Proporção 4:5 - Comprimida auto)</label>
-              <input type="file" id="file-input-${i}" accept="image/*" onchange="converterEComprimirImagem(this, 'preview-img-${i}', 'input-img-card-${i}', 'wrapper-preview-${i}')">
-              <input type="hidden" id="input-img-card-${i}" value="${card.imgUrl}">
-              <div id="wrapper-preview-${i}" class="preview-container-admin" style="display: ${card.imgUrl ? 'flex' : 'none'};">
-                <img id="preview-img-${i}" class="preview-img-admin" src="${card.imgUrl}">
-                <button type="button" class="btn-delete-img" onclick="removerImagem('input-img-card-${i}', 'preview-img-${i}', 'wrapper-preview-${i}', 'file-input-${i}')">❌ Excluir Imagem</button>
-              </div>
-            </div>
-          </div>
-        `;
-        container.insertAdjacentHTML("beforeend", html);
-      });
-    }
-
-    async function salvarConteudo(e) {
-      e.preventDefault();
-      const btnSalvar = document.getElementById("btn-salvar-admin");
-      btnSalvar.innerText = "Salvando na Nuvem...";
-      btnSalvar.disabled = true;
-
-      const cardsSalvar = [];
-      for (let i = 1; i <= 6; i++) {
-        cardsSalvar.push({
-          habilitado: document.getElementById(`input-card-habilitado-${i}`).checked,
-          titulo: document.getElementById(`input-titulo-card-${i}`).value,
-          desc: document.getElementById(`input-desc-card-${i}`).value,
-          btnTexto: document.getElementById(`input-btn-texto-${i}`).value,
-          btnLink: document.getElementById(`input-btn-link-${i}`).value,
-          imgUrl: document.getElementById(`input-img-card-${i}`).value
-        });
-      }
-
-      const novosDados = {
-        linkComunidade: document.getElementById("input-btn-comunidade-link").value,
-        tituloSecaoOfertas: document.getElementById("input-titulo-secao-ofertas").value,
-        sorteioHabilitado: document.getElementById("input-habilitar-sorteio").checked,
-        tituloSecaoSorteio: document.getElementById("input-titulo-secao-sorteio").value,
-        cardSorteio: {
-          titulo: document.getElementById("input-titulo-card-sorteio").value,
-          desc: document.getElementById("input-desc-card-sorteio").value,
-          btnTexto: document.getElementById("input-btn-texto-sorteio").value,
-          btnLink: document.getElementById("input-btn-link-sorteio").value,
-          imgUrl: document.getElementById("input-img-card-sorteio").value
-        },
-        cards: cardsSalvar
-      };
-
-      try {
-        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Master-Key": MASTER_KEY
-          },
-          body: JSON.stringify(novosDados)
-        });
-
-        if (res.ok) {
-          dadosCache = novosDados;
-          await renderizarSite();
-          fecharModais();
-          alert("Conteúdo atualizado com sucesso para todos os usuários!");
-        } else {
-          alert("Erro ao salvar dados na nuvem. Verifique suas chaves.");
-        }
-      } catch (err) {
-        console.error("Erro na requisição:", err);
-        alert("Erro na conexão ao salvar na nuvem.");
-      } finally {
-        btnSalvar.innerText = "Salvar na Nuvem";
-        btnSalvar.disabled = false;
-      }
-    }
-
-    function abrirPainel() {
-      const estaLogado = sessionStorage.getItem("admin_logado");
-      if (estaLogado === "true") {
-        preencherFormularioAdmin();
-        document.getElementById("modal-admin").style.display = "flex";
-      } else {
-        document.getElementById("modal-login").style.display = "flex";
-      }
-    }
-
-    function realizarLogin(e) {
-      e.preventDefault();
-      const u = document.getElementById("login-user").value.trim();
-      const p = document.getElementById("login-pass").value.trim();
-
-      if (u === USER_CORRETO && p === PASS_CORRETO) {
-        sessionStorage.setItem("admin_logado", "true");
-        fecharModais();
-        abrirPainel();
-      } else {
-        alert("Usuário ou senha incorretos!");
-      }
-    }
-
-    function logout() {
-      sessionStorage.removeItem("admin_logado");
-      fecharModais();
-      alert("Sessão encerrada.");
-    }
-
-    function fecharModais() {
-      document.getElementById("modal-login").style.display = "none";
-      document.getElementById("modal-admin").style.display = "none";
-      document.getElementById("modal-ios-pwa").style.display = "none";
-      document.getElementById("modal-lightbox").style.display = "none";
-    }
-
-    window.addEventListener("keydown", function(e) {
-      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "a") {
-        e.preventDefault();
-        abrirPainel();
-      }
-    });
-
-    renderizarSite();
-  </script>
-</body>
-</html>
+            <h4>📌 Card Promoção #
