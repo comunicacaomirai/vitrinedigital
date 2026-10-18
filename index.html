@@ -679,13 +679,17 @@
   <script>
   const urlParams = new URLSearchParams(window.location.search);
   const origem = urlParams.get('origem');
-   
+
   if (origem) {
-    gtag('event', 'origem_banner', {
-      origem: origem
-    });
-   
     console.log("Origem detectada:", origem);
+
+    if (typeof gtag === "function") {
+      gtag('event', 'origem_banner', {
+        banner_origem: origem
+      });
+
+      console.log("Evento enviado ao GA4");
+    }
   }
   </script>
 </body>
